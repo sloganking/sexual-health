@@ -237,13 +237,53 @@
                     Click any STI for detailed transmission data, risk factors, and sources.
                 </p>
             </div>
+
+            <div class="classification-legend">
+                <div class="legend-group">
+                    <h4>Duration</h4>
+                    <div class="legend-items">
+                        <span class="tag tag-curable">Curable</span>
+                        <span class="legend-desc">Eliminated with treatment</span>
+                    </div>
+                    <div class="legend-items">
+                        <span class="tag tag-clears">Usually Clears</span>
+                        <span class="legend-desc">Immune system typically resolves it</span>
+                    </div>
+                    <div class="legend-items">
+                        <span class="tag tag-chronic">Chronic</span>
+                        <span class="legend-desc">Lifelong, but manageable with treatment</span>
+                    </div>
+                </div>
+                <div class="legend-group">
+                    <h4>If Untreated</h4>
+                    <div class="legend-items">
+                        <span class="tag tag-low">Low Risk</span>
+                        <span class="legend-desc">Minimal long-term consequences</span>
+                    </div>
+                    <div class="legend-items">
+                        <span class="tag tag-moderate">Moderate Risk</span>
+                        <span class="legend-desc">Can cause complications over time</span>
+                    </div>
+                    <div class="legend-items">
+                        <span class="tag tag-serious">Serious Risk</span>
+                        <span class="legend-desc">Major health consequences possible</span>
+                    </div>
+                    <div class="legend-items">
+                        <span class="tag tag-critical">Life-Threatening</span>
+                        <span class="legend-desc">Fatal if left untreated</span>
+                    </div>
+                </div>
+            </div>
             
             <div class="sti-grid">
                 <!-- HIV -->
                 <article class="sti-card" id="sti-hiv">
                     <div class="sti-header">
                         <h3>HIV</h3>
-                        <span class="sti-severity severe">Severe (Treatable)</span>
+                        <div class="sti-tags">
+                            <span class="tag tag-chronic">Chronic</span>
+                            <span class="tag tag-critical">Life-Threatening</span>
+                        </div>
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
@@ -315,7 +355,10 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                 <article class="sti-card" id="sti-hsv2">
                     <div class="sti-header">
                         <h3>Herpes (HSV-2)</h3>
-                        <span class="sti-severity moderate">Chronic (Manageable)</span>
+                        <div class="sti-tags">
+                            <span class="tag tag-chronic">Chronic</span>
+                            <span class="tag tag-low">Low Risk</span>
+                        </div>
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
@@ -387,7 +430,10 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                 <article class="sti-card" id="sti-hpv">
                     <div class="sti-header">
                         <h3>HPV (Human Papillomavirus)</h3>
-                        <span class="sti-severity variable">Variable (Often Clears)</span>
+                        <div class="sti-tags">
+                            <span class="tag tag-clears">Usually Clears</span>
+                            <span class="tag tag-moderate">Moderate Risk</span>
+                        </div>
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
@@ -457,7 +503,10 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                 <article class="sti-card" id="sti-chlamydia">
                     <div class="sti-header">
                         <h3>Chlamydia</h3>
-                        <span class="sti-severity curable">Curable</span>
+                        <div class="sti-tags">
+                            <span class="tag tag-curable">Curable</span>
+                            <span class="tag tag-moderate">Moderate Risk</span>
+                        </div>
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
@@ -526,7 +575,10 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                 <article class="sti-card" id="sti-gonorrhea">
                     <div class="sti-header">
                         <h3>Gonorrhea</h3>
-                        <span class="sti-severity curable">Curable (Resistance Concern)</span>
+                        <div class="sti-tags">
+                            <span class="tag tag-curable">Curable</span>
+                            <span class="tag tag-moderate">Moderate Risk</span>
+                        </div>
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
@@ -593,7 +645,10 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                 <article class="sti-card" id="sti-syphilis">
                     <div class="sti-header">
                         <h3>Syphilis</h3>
-                        <span class="sti-severity severe">Serious (Curable)</span>
+                        <div class="sti-tags">
+                            <span class="tag tag-curable">Curable</span>
+                            <span class="tag tag-serious">Serious Risk</span>
+                        </div>
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
