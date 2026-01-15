@@ -857,6 +857,30 @@ const SOURCES = {
     },
     
     // ===========================================
+    // HEPATITIS B SOURCES - VERIFIED ✓
+    // ===========================================
+    
+    // Hepatitis B condom effectiveness
+    hepb_condom_effectiveness: {
+        id: 'hepb_condom_effectiveness',
+        name: 'PMC Review - Condom Effectiveness for Hepatitis B',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4660551/',
+        quote: 'The condom offers maximum protection (more than 90%) against HIV, Hepatitis B virus and N.Gonorrhoea',
+        verifiedDate: '2025-01-14',
+        type: 'review',
+        manuallyVerified: true,
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'condom_protection', value: '>90%', source: 'quote', highlight: 'more than 90%' }
+            ],
+            steps: ['Condoms provide >90% protection against Hepatitis B'],
+            result: { name: 'condom_effectiveness', value: '>90% protection' },
+            warnings: ['HBV is highly infectious — vaccination is the primary prevention']
+        }
+    },
+    
+    // ===========================================
     // TRICHOMONIASIS SOURCES - VERIFIED ✓
     // ===========================================
     
