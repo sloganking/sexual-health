@@ -289,52 +289,6 @@ const SOURCES = {
     // ===========================================
     // SYPHILIS SOURCES
     // ===========================================
-
-    syphilis_msm_per_act_pmc: {
-        id: 'syphilis_msm_per_act_pmc',
-        name: 'Gray et al. (cited in PMC5973824) - Syphilis Per-Act Transmission (MSM)',
-        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5973824/',
-        quote: 'Gray et al . estimated a syphilis transmission probability of 0.5–1.4% per sexual act among MSM ... penile-anal sex (1.4% transmission probability per act) ... penile-oral sex (1.0% transmission probability per act) ... during primary and secondary syphilis.',
-        verifiedDate: '2025-01-14',
-        type: 'webpage',
-        isDerived: true,
-        derivation: {
-            variables: [
-                {
-                    name: 'per_act_range_msm',
-                    value: '0.5–1.4% per act',
-                    source: 'quote',
-                    highlight: '0.5–1.4%'
-                },
-                {
-                    name: 'anal_per_act',
-                    value: '1.4% per act',
-                    source: 'quote',
-                    highlight: '1.4%'
-                },
-                {
-                    name: 'oral_per_act',
-                    value: '1.0% per act',
-                    source: 'quote',
-                    highlight: '1.0%'
-                }
-            ],
-            steps: [
-                'From quote: per-act range = 0.5–1.4% (MSM)',
-                'Midpoint: (0.5 + 1.4) / 2 = 0.95%',
-                'Note: Derived midpoint used as point estimate'
-            ],
-            result: {
-                name: 'per_act_transmission_rate',
-                value: '~0.95% (range 0.5–1.4%)'
-            },
-            warnings: [
-                'MSM-only estimate; based on penile-anal/oral sex',
-                'Applies to primary/secondary syphilis (most infectious)',
-                'Direction (M→F vs F→M) is not specified in source'
-            ]
-        }
-    },
     
     syphilis_schober_1983: {
         id: 'syphilis_schober_1983',

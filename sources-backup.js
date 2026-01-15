@@ -14,8 +14,18 @@ const BACKUP_SOURCES = {
     // CORROBORATING / ALTERNATIVE SOURCES
     // ===========================================
     
-    // Currently empty - we'll add sources here when we find alternatives
-    // that we don't want to use as primary but want to keep for reference
+    // Sources we don't want to use as primary but want to keep for reference
+
+    syphilis_msm_per_act_pmc: {
+        id: 'syphilis_msm_per_act_pmc',
+        name: 'Gray et al. (cited in PMC5973824) - Syphilis Per-Act Transmission (MSM)',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5973824/',
+        quote: 'Gray et al . estimated a syphilis transmission probability of 0.5–1.4% per sexual act among MSM ... penile-anal sex (1.4% transmission probability per act) ... penile-oral sex (1.0% transmission probability per act) ... during primary and secondary syphilis.',
+        verifiedDate: '2025-01-14',
+        type: 'webpage',
+        primarySourceId: 'syphilis_schober_1983',
+        notes: 'MSM-only estimate (anal/oral). Not used on site; kept as backup context.'
+    },
     
     // EXAMPLE STRUCTURE:
     // hiv_alternative_study: {

@@ -159,20 +159,22 @@ const STI_DATA = {
     syphilis: {
         name: 'Syphilis',
         verified: true,  // VERIFIED 2025-01-14
-        verificationNote: 'Verified against PMC5973824 (Gray et al. per-act, MSM)',
-        rateType: 'per-act-derived',  // Derived per-act from MSM estimates
+        verificationNote: 'Verified against Schober et al. 1983 - PER-PARTNERSHIP only',
+        rateType: 'per-partnership',  // Per-partnership rate - NO per-act data available
         rates: {
             mtf: {
-                value: 0.0095,  // ~0.95% per act (range 0.5–1.4%)
-                sourceId: 'syphilis_msm_per_act_pmc',
-                isDerived: true,
-                note: 'Derived midpoint from MSM per-act range; direction not specified'
+                value: null,  // Cannot reliably calculate per-act
+                sourceId: 'syphilis_schober_1983',
+                isDerived: false,
+                perPartnershipValue: 0.58,  // 58% per partnership
+                note: 'Per-PARTNERSHIP rate only - per-act rate unknown'
             },
             ftm: {
-                value: 0.0095,  // Same estimate (direction not specified)
-                sourceId: 'syphilis_msm_per_act_pmc',
-                isDerived: true,
-                note: 'Derived midpoint from MSM per-act range; direction not specified'
+                value: null,  // Cannot reliably calculate per-act
+                sourceId: 'syphilis_schober_1983',
+                isDerived: false,
+                perPartnershipValue: 0.58,  // 58% per partnership
+                note: 'Per-PARTNERSHIP rate only - per-act rate unknown'
             }
         },
         condomEffectiveness: { 
@@ -181,9 +183,9 @@ const STI_DATA = {
             isUnverified: true,
             note: 'Approximate estimate - limited protection due to sores outside condom area'
         },
-        source: 'Malagón 2021 (PMC5973824) citing Gray et al.',
-        sourceUrl: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5973824/',
-        notes: '⚠️ MSM-only per-act estimates (penile-anal/oral). Applies to primary/secondary syphilis. Direction not specified; used as same value for M→F and F→M.'
+        source: 'Schober et al. 1983',
+        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/6871650/',
+        notes: '⚠️ Only per-PARTNERSHIP rate available (58%). Per-act rate cannot be reliably determined. Highly infectious during primary/secondary stage. Curable with antibiotics.'
     }
 };
 
