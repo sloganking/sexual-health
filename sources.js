@@ -177,6 +177,44 @@ const SOURCES = {
         }
     },
     
+    hsv2_condom_effectiveness: {
+        id: 'hsv2_condom_effectiveness',
+        name: 'Martin et al. 2009 - HSV-2 Condom Effectiveness',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4725379/',
+        quote: 'Condoms were 96% effective at preventing HSV-2 transmission from men to women and 65% effective from women to men',
+        verifiedDate: '2025-01-14',
+        type: 'webpage',
+        isDerived: false,
+        derivation: {
+            variables: [
+                {
+                    name: 'effectiveness_mtf',
+                    value: '96%',
+                    source: 'quote',
+                    highlight: '96%'
+                },
+                {
+                    name: 'effectiveness_ftm',
+                    value: '65%',
+                    source: 'quote',
+                    highlight: '65%'
+                }
+            ],
+            steps: [
+                'From quote: condom effectiveness M→F = 96%',
+                'From quote: condom effectiveness F→M = 65%'
+            ],
+            result: {
+                name: 'condom_effectiveness',
+                value: '96% (M→F) / 65% (F→M)'
+            },
+            warnings: [
+                'Study conducted in HIV-discordant couples',
+                'Using average (80.5%) for calculator since direction not always known'
+            ]
+        }
+    },
+    
     // Derived per-act rate for HSV-2 (calculated from the 8-month study data)
     hsv2_per_act_derived: {
         id: 'hsv2_per_act_derived',

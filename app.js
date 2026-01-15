@@ -58,14 +58,14 @@ const STI_DATA = {
             }
         },
         condomEffectiveness: { 
-            value: 0.30,  
-            sourceId: null,  // ⚠️ UNVERIFIED
-            isUnverified: true,
-            note: 'Approximate estimate - needs verified source'
+            value: 0.805,  // Average of 96% M→F and 65% F→M
+            sourceId: 'hsv2_condom_effectiveness',
+            isUnverified: false,
+            note: '96% M→F, 65% F→M (using 80.5% average)'
         },
         source: 'Corey et al. 2004 - NEJM (derived)',
         sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/14702423/',
-        notes: '⚠️ Per-act rate derived from 8-month study. See tooltip for full calculation.'
+        notes: 'Per-act rate derived from 8-month study. Condoms 96% effective M→F, 65% F→M.'
     },
     
     hpv: {
