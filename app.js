@@ -71,29 +71,27 @@ const STI_DATA = {
     hpv: {
         name: 'HPV',
         verified: true,  // VERIFIED 2025-01-14
-        verificationNote: 'Verified against Chesson 2014 + Burchell 2013',
-        rateType: 'lifetime',  // HPV data is lifetime probability, not per-act
+        verificationNote: 'Verified against HITCH cohort (Malagón 2021) with assumptions',
+        rateType: 'per-act-derived',  // Derived from person-month rates with assumptions
         rates: {
-            // HPV is highly transmissible - 85-91% lifetime probability
+            // Derived from per 100 person–month rates with assumed sex frequency
             mtf: {
-                value: null,  // Per-act rate not well established
-                sourceId: 'hpv_lifetime_chesson',
-                displayValue: '84.6% lifetime',
-                isDerived: false,
-                note: 'Lifetime probability, not per-act'
+                value: 0.0041,  // ~0.41% per act (assumes 2x/week)
+                sourceId: 'hpv_hitch_2021',
+                isDerived: true,
+                note: 'Derived from 3.5 per 100 person-months with assumed frequency'
             },
             ftm: {
-                value: null,
-                sourceId: 'hpv_lifetime_chesson',
-                displayValue: '91.3% lifetime',
-                isDerived: false,
-                note: 'Lifetime probability, not per-act'
+                value: 0.0066,  // ~0.66% per act (assumes 2x/week)
+                sourceId: 'hpv_hitch_2021',
+                isDerived: true,
+                note: 'Derived from 5.6 per 100 person-months with assumed frequency'
             }
         },
         condomEffectiveness: { value: 0.70, sourceId: null },  // Approximate, limited protection
-        source: 'Chesson et al. 2014 + Burchell et al. 2013',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/25299412/',
-        notes: 'HPV is extremely common - ~85-91% of sexually active people will acquire it. Condoms provide limited protection. Vaccine is most effective prevention.'
+        source: 'Malagón et al. 2021 (HITCH cohort)',
+        sourceUrl: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8012224/',
+        notes: 'Per-act rates derived from person–month transmission rates assuming 2 sex acts/week. Condoms provide limited protection. Vaccine is most effective prevention.'
     },
     
     chlamydia: {

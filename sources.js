@@ -404,6 +404,62 @@ const SOURCES = {
     // ===========================================
     // HPV SOURCES
     // ===========================================
+
+    hpv_hitch_2021: {
+        id: 'hpv_hitch_2021',
+        name: 'Malagón et al. 2021 - HITCH Cohort HPV Transmission Rates',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8012224/',
+        quote: 'The estimated median transmission rate from an HPV-positive to a negative partner was 4.2 ... per 100 person–months. The transmission rate from men to women was 3.5 ... and from women to men was 5.6 ... per 100 person–months.',
+        verifiedDate: '2025-01-14',
+        type: 'webpage',
+        isDerived: true,
+        derivation: {
+            variables: [
+                {
+                    name: 'mtf_rate_per_100_person_months',
+                    value: '3.5 per 100 person–months',
+                    source: 'quote',
+                    highlight: '3.5'
+                },
+                {
+                    name: 'ftm_rate_per_100_person_months',
+                    value: '5.6 per 100 person–months',
+                    source: 'quote',
+                    highlight: '5.6'
+                },
+                {
+                    name: 'assumed_sex_frequency',
+                    value: '2× per week',
+                    source: 'assumption',
+                    note: 'Assumed average sexual frequency; not stated in study'
+                },
+                {
+                    name: 'acts_per_month',
+                    value: '~8.66 acts/month',
+                    source: 'calculated',
+                    calculation: '2 acts/week × 4.33 weeks/month ≈ 8.66 acts/month'
+                }
+            ],
+            steps: [
+                'From quote: mtf_rate = 3.5 per 100 person–months',
+                'From quote: ftm_rate = 5.6 per 100 person–months',
+                'Convert: mtf_monthly_rate = 3.5 ÷ 100 = 0.035',
+                'Convert: ftm_monthly_rate = 5.6 ÷ 100 = 0.056',
+                '⚠️ Assumed: 2 sex acts/week ≈ 8.66 acts/month',
+                'Formula: per_act = 1 - (1 - monthly_rate)^(1/acts_per_month)',
+                'Calculation: mtf_per_act = 1 - (1 - 0.035)^(1/8.66) ≈ 0.0041',
+                'Calculation: ftm_per_act = 1 - (1 - 0.056)^(1/8.66) ≈ 0.0066'
+            ],
+            result: {
+                name: 'per_act_transmission_rate',
+                value: '~0.41% (M→F) / ~0.66% (F→M)'
+            },
+            warnings: [
+                '⚠️ Assumes 2 sex acts per week; study does not report frequency',
+                'Uses person–month rates as monthly probabilities (approximation)'
+            ]
+        }
+    },
     
     hpv_burchell_2013: {
         id: 'hpv_burchell_2013',
