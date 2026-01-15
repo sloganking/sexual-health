@@ -62,3 +62,17 @@ All quotes must pass verification. If a quote fails, it's WRONG.
 - [ ] Per-partnership rates are NOT used as per-act rates
 - [ ] NO unused variables - every variable must be used in steps/result
 - [ ] Quote includes enough context for a human to understand the number
+
+### Text Fragments + Omission Markers (REQUIRED)
+
+- Every citation link MUST include a text fragment to jump to the quoted text
+- If any part of a quote is omitted, the quote MUST visibly show that omission using ...
+- Never splice quote segments together without ... indicating missing text
+
+### NO CONFABULATED QUOTES (CRITICAL)
+
+- NEVER create prose quotes that do not exist on the source page
+- If data comes from a TABLE or CHART, say so explicitly
+- Do NOT pretend table data is a prose quote - describe it honestly
+- For table/chart data: use format like 'From Table 1: Risk Ratio = 0.04'
+- [ ] NO confabulated quotes - if data is from a table, describe it as table data

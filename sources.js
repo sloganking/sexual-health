@@ -181,36 +181,42 @@ const SOURCES = {
         id: 'hsv2_condom_effectiveness',
         name: 'Martin et al. 2009 - HSV-2 Condom Effectiveness',
         url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4725379/',
-        quote: 'Condoms were 96% effective at preventing HSV-2 transmission from men to women and 65% effective from women to men',
+        // DATA IS FROM TABLE 1 - not a prose quote (cannot be text-searched)
+        quote: 'From Table 1: "Use of condoms" Risk Ratio = 0.04 for susceptible women, 0.35 for susceptible men',
+        isTableData: true,  // Flag that this is table data, not prose
+        manuallyVerified: true,  // Table data cannot be automatically verified
         verifiedDate: '2025-01-14',
         type: 'webpage',
-        isDerived: false,
+        isDerived: true,  // Derived: effectiveness = 1 - risk ratio
         derivation: {
             variables: [
                 {
-                    name: 'effectiveness_mtf',
-                    value: '96%',
-                    source: 'quote',
-                    highlight: '96%'
+                    name: 'risk_ratio_mtf',
+                    value: '0.04',
+                    source: 'table',
+                    note: 'Table 1: Susceptible women → Use of condoms → Risk Ratio 0.04 (.01, .16)'
                 },
                 {
-                    name: 'effectiveness_ftm',
-                    value: '65%',
-                    source: 'quote',
-                    highlight: '65%'
+                    name: 'risk_ratio_ftm',
+                    value: '0.35',
+                    source: 'table',
+                    note: 'Table 1: Susceptible men → Use of condoms → Risk Ratio 0.35 (.12, 1.04)'
                 }
             ],
             steps: [
-                'From quote: condom effectiveness M→F = 96%',
-                'From quote: condom effectiveness F→M = 65%'
+                'From Table 1: risk_ratio_mtf = 0.04 (susceptible women)',
+                'From Table 1: risk_ratio_ftm = 0.35 (susceptible men)',
+                'Convert: effectiveness_mtf = 1 - 0.04 = 0.96 = 96%',
+                'Convert: effectiveness_ftm = 1 - 0.35 = 0.65 = 65%'
             ],
             result: {
                 name: 'condom_effectiveness',
                 value: '96% (M→F) / 65% (F→M)'
             },
             warnings: [
+                '⚠️ Data is from Table 1, not prose text',
                 'Study conducted in HIV-discordant couples',
-                'Using average (80.5%) for calculator since direction not always known'
+                'F→M result (0.35) was not statistically significant (p=.060)'
             ]
         }
     },
