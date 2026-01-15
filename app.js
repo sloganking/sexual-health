@@ -44,27 +44,28 @@ const STI_DATA = {
         name: 'Herpes (HSV-2)',
         verified: true,  // VERIFIED 2025-01-14
         verificationNote: 'Verified against Corey et al. 2004 NEJM study',
-        rateType: 'per-period',  // This is a per-8-month transmission rate, not per-act
+        rateType: 'per-act-derived',  // Derived from 8-month study
         rates: {
-            // Note: These are 8-month rates, converted to approximate per-act
-            // Assuming ~100 sexual acts over 8 months (2-3x/week)
             mtf: {
-                value: 0.00036,  // 3.6% / 100 acts ≈ 0.036% per act (⚠️ DERIVED)
-                sourceId: 'hsv2_corey_2004',
-                isDerived: true,
-                derivationNote: '⚠️ Derived: 3.6% per 8 months ÷ ~100 acts = ~0.036% per act'
+                value: 0.00053,  // Derived per-act rate
+                sourceId: 'hsv2_per_act_derived',  // Uses the new derived source
+                isDerived: true
             },
             ftm: {
-                value: 0.00036,  // Using same rate (study didn't distinguish direction)
-                sourceId: 'hsv2_corey_2004',
-                isDerived: true,
-                derivationNote: '⚠️ Derived: Study did not distinguish M→F vs F→M transmission'
+                value: 0.00053,  // Using same rate (study didn't distinguish direction)
+                sourceId: 'hsv2_per_act_derived',
+                isDerived: true
             }
         },
-        condomEffectiveness: { value: 0.30, sourceId: null },  // Approximate, needs source
-        source: 'Corey et al. 2004 - NEJM',
+        condomEffectiveness: { 
+            value: 0.30,  
+            sourceId: null,  // ⚠️ UNVERIFIED
+            isUnverified: true,
+            note: 'Approximate estimate - needs verified source'
+        },
+        source: 'Corey et al. 2004 - NEJM (derived)',
         sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/14702423/',
-        notes: '⚠️ Per-act rate derived from 8-month study (3.6% without antivirals). Assumes ~2-3x/week frequency.'
+        notes: '⚠️ Per-act rate derived from 8-month study. See tooltip for full calculation.'
     },
     
     hpv: {
@@ -115,7 +116,12 @@ const STI_DATA = {
                 note: 'Per-PARTNERSHIP rate, not per-act (wide uncertainty: 5-21%)'
             }
         },
-        condomEffectiveness: { value: 0.60, sourceId: null },  // Approximate
+        condomEffectiveness: { 
+            value: 0.60, 
+            sourceId: null,
+            isUnverified: true,
+            note: 'Approximate estimate - needs verified source'
+        },
         source: 'Price et al. 2021 - BMJ STI',
         sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/33349846/',
         notes: '⚠️ These are per-PARTNERSHIP rates (32-35% M→F, 5-21% F→M), not per-act. Easily curable with antibiotics.'
@@ -141,7 +147,12 @@ const STI_DATA = {
                 note: 'Per-PARTNERSHIP rate'
             }
         },
-        condomEffectiveness: { value: 0.60, sourceId: null },  // Approximate
+        condomEffectiveness: { 
+            value: 0.60, 
+            sourceId: null,
+            isUnverified: true,
+            note: 'Approximate estimate - needs verified source'
+        },
         source: 'NCBI Book - Partner Notification Model',
         sourceUrl: 'https://www.ncbi.nlm.nih.gov/books/NBK261441/',
         notes: '⚠️ Per-PARTNERSHIP rate (~62.5%). Per-act rate is ~2x that of chlamydia. Easily curable but antibiotic resistance is growing concern.'
@@ -167,7 +178,12 @@ const STI_DATA = {
                 note: 'Per-PARTNERSHIP with infectious primary/secondary syphilis case'
             }
         },
-        condomEffectiveness: { value: 0.50, sourceId: null },  // Limited due to sores outside condom area
+        condomEffectiveness: { 
+            value: 0.50, 
+            sourceId: null,
+            isUnverified: true,
+            note: 'Approximate estimate - limited protection due to sores outside condom area'
+        },
         source: 'Schober et al. 1983',
         sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/6871650/',
         notes: '⚠️ Per-PARTNERSHIP rate (51-58%) with PRIMARY/SECONDARY syphilis. Transmission much lower in latent stage. Curable with antibiotics.'
@@ -180,6 +196,8 @@ const STI_DATA = {
 
 /**
  * Create a citable number span with hover tooltip
+ * Shows step-by-step derivation for calculated values
+ * 
  * @param {string} displayText - The text to display (e.g., "0.08%")
  * @param {string} sourceId - The ID in the SOURCES object
  * @returns {string} HTML string for the citable element
@@ -187,42 +205,115 @@ const STI_DATA = {
 function createCitableNumber(displayText, sourceId) {
     if (!window.SOURCES || !window.SOURCES[sourceId]) {
         console.warn(`Source not found: ${sourceId}`);
-        return displayText;
+        return `<span class="citable-unverified">${displayText} <span style="color:#f59e0b;">⚠️</span></span>`;
     }
     
     const source = window.SOURCES[sourceId];
-    // Format quote: replace "..." with styled ellipsis for readability
-    const formattedQuote = source.quote
+    const verifiedDate = source.verifiedDate || 'Unknown';
+    const isDerived = source.isDerived || false;
+    
+    // Format quote: highlight parts that correspond to variables
+    let formattedQuote = source.quote
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
-        .replace(/\s*\.\.\.\s*/g, ' <span style="color:#6b7280;">···</span> ');
-    const verifiedDate = source.verifiedDate || source.accessDate || 'Unknown';
-    const isDerived = source.isDerived || false;
-    const typeLabel = isDerived ? 'derived' : 'direct';
-    const typeDisplay = isDerived ? 'Calculated' : 'Direct quote';
+        .replace(/\s*\.\.\.\s*/g, ' <span class="quote-ellipsis">···</span> ');
     
-    let derivationHtml = '';
+    // If there's a derivation with variables, highlight them in the quote
+    if (isDerived && source.derivation && source.derivation.variables) {
+        source.derivation.variables.forEach(v => {
+            if (v.highlight && v.source === 'quote') {
+                const regex = new RegExp(`(${v.highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                formattedQuote = formattedQuote.replace(regex, 
+                    `<span class="quote-highlight" title="${v.name} = ${v.value}">$1</span>`);
+            }
+        });
+    }
+    
+    let contentHtml = '';
+    
     if (isDerived && source.derivation) {
-        const escapedDerivation = source.derivation.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        derivationHtml = `
-            <div class="cite-tooltip-derivation">
-                <span class="cite-tooltip-derivation-label">How we calculated this:</span>
-                ${escapedDerivation.replace(/\n/g, '<br>')}
+        // DERIVED VALUE - Show step-by-step
+        const d = source.derivation;
+        
+        // Variables section
+        let varsHtml = '<div class="derive-variables">';
+        varsHtml += '<div class="derive-section-title">📋 Extracted Variables</div>';
+        d.variables.forEach(v => {
+            let icon = '';
+            let varClass = '';
+            if (v.source === 'quote') {
+                icon = '📖';
+                varClass = 'var-from-quote';
+            } else if (v.source === 'assumption') {
+                icon = '⚠️';
+                varClass = 'var-assumed';
+            } else if (v.source === 'calculated') {
+                icon = '🔢';
+                varClass = 'var-calculated';
+            }
+            varsHtml += `<div class="derive-var ${varClass}">
+                <span class="derive-var-icon">${icon}</span>
+                <span class="derive-var-name">${v.name}</span> = 
+                <span class="derive-var-value">${v.value}</span>
+                ${v.note ? `<span class="derive-var-note">(${v.note})</span>` : ''}
             </div>`;
+        });
+        varsHtml += '</div>';
+        
+        // Steps section
+        let stepsHtml = '<div class="derive-steps">';
+        stepsHtml += '<div class="derive-section-title">🧮 Calculation</div>';
+        d.steps.forEach((step, i) => {
+            const isWarning = step.startsWith('⚠️');
+            stepsHtml += `<div class="derive-step ${isWarning ? 'step-warning' : ''}">${step}</div>`;
+        });
+        stepsHtml += '</div>';
+        
+        // Result section
+        let resultHtml = '<div class="derive-result">';
+        resultHtml += `<span class="derive-result-name">${d.result.name}</span> = `;
+        resultHtml += `<span class="derive-result-value">${d.result.value}</span>`;
+        resultHtml += '</div>';
+        
+        // Warnings
+        let warningsHtml = '';
+        if (d.warnings && d.warnings.length > 0) {
+            warningsHtml = '<div class="derive-warnings">';
+            d.warnings.forEach(w => {
+                warningsHtml += `<div class="derive-warning">⚠️ ${w}</div>`;
+            });
+            warningsHtml += '</div>';
+        }
+        
+        contentHtml = `
+            <div class="cite-tooltip-source">
+                ${source.name}
+                <span class="cite-tooltip-type derived">Calculated</span>
+            </div>
+            <div class="cite-tooltip-quote">"${formattedQuote}"</div>
+            ${varsHtml}
+            ${stepsHtml}
+            ${resultHtml}
+            ${warningsHtml}
+            <a href="${source.url}" target="_blank" class="cite-tooltip-link">View source →</a>
+            <span class="cite-tooltip-meta">Last verified: ${verifiedDate}</span>
+        `;
+    } else {
+        // DIRECT VALUE - Show simple quote
+        contentHtml = `
+            <div class="cite-tooltip-source">
+                ${source.name}
+                <span class="cite-tooltip-type direct">Direct quote</span>
+            </div>
+            <div class="cite-tooltip-quote">"${formattedQuote}"</div>
+            <a href="${source.url}" target="_blank" class="cite-tooltip-link">View source →</a>
+            <span class="cite-tooltip-meta">Last verified: ${verifiedDate}</span>
+        `;
     }
     
     return `<span class="citable" data-source="${sourceId}">
         ${displayText}
-        <span class="cite-tooltip">
-            <span class="cite-tooltip-source">
-                ${source.name}
-                <span class="cite-tooltip-type ${typeLabel}">${typeDisplay}</span>
-            </span>
-            <span class="cite-tooltip-quote">"${formattedQuote}"</span>
-            ${derivationHtml}
-            <a href="${source.url}" target="_blank" class="cite-tooltip-link">View source →</a>
-            <span class="cite-tooltip-meta">Last verified: ${verifiedDate}</span>
-        </span>
+        <span class="cite-tooltip">${contentHtml}</span>
     </span>`;
 }
 
@@ -405,11 +496,21 @@ class RiskCalculator {
         }
         
         // Show adjusted rate with condom source if applicable
-        if (useCondom && condomSourceId && window.SOURCES && window.SOURCES[condomSourceId]) {
-            this.adjustedRate.innerHTML = createCitableNumber(
-                `${(adjustedRateValue * 100).toFixed(3)}%`,
-                condomSourceId
-            );
+        const condomData = typeof stiData.condomEffectiveness === 'object' ? stiData.condomEffectiveness : null;
+        const isCondomUnverified = condomData && condomData.isUnverified;
+        
+        if (useCondom) {
+            if (condomSourceId && window.SOURCES && window.SOURCES[condomSourceId]) {
+                this.adjustedRate.innerHTML = createCitableNumber(
+                    `${(adjustedRateValue * 100).toFixed(3)}%`,
+                    condomSourceId
+                );
+            } else if (isCondomUnverified) {
+                // Show unverified warning
+                this.adjustedRate.innerHTML = `<span class="citable-unverified" title="${condomData.note || 'Condom effectiveness not verified'}">${(adjustedRateValue * 100).toFixed(3)}% ⚠️</span>`;
+            } else {
+                this.adjustedRate.textContent = `${(adjustedRateValue * 100).toFixed(3)}%`;
+            }
         } else {
             this.adjustedRate.textContent = `${(adjustedRateValue * 100).toFixed(3)}%`;
         }

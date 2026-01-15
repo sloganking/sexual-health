@@ -58,22 +58,63 @@ const SOURCES = {
         id: 'hsv2_corey_2004',
         name: 'Corey et al. 2004 - NEJM - HSV-2 Transmission Study',
         url: 'https://pubmed.ncbi.nlm.nih.gov/14702423/',
-        // Multi-part quote for context - all parts verified on page
         quote: 'heterosexual, monogamous couples ... eight months ... Overall, acquisition of HSV-2 was observed in 14 of the susceptible partners who received valacyclovir (1.9 percent), as compared with 27 (3.6 percent) who received placebo',
         verifiedDate: '2025-01-14',
         type: 'abstract',
-        notes: 'VERIFIED ✓ - This gives baseline transmission rate of 3.6% per 8 months without antivirals.',
-        derivedNumbers: {
-            baselineAnnualRate: {
-                value: 0.054, // 5.4% per year
-                calculation: '3.6% per 8 months → 3.6% × (12/8) = 5.4% per year',
-                assumption: '⚠️ Assumes linear extrapolation from 8 months to 12 months'
+        notes: 'VERIFIED ✓ - This gives baseline transmission rate of 3.6% per 8 months without antivirals.'
+    },
+    
+    // Derived per-act rate for HSV-2 (calculated from the 8-month study data)
+    hsv2_per_act_derived: {
+        id: 'hsv2_per_act_derived',
+        name: 'HSV-2 Per-Act Rate (Derived)',
+        url: 'https://pubmed.ncbi.nlm.nih.gov/14702423/',
+        quote: 'heterosexual, monogamous couples ... eight months ... 27 (3.6 percent) who received placebo',
+        verifiedDate: '2025-01-14',
+        type: 'abstract',
+        isDerived: true,
+        derivation: {
+            variables: [
+                {
+                    name: 'transmission_8mo',
+                    value: '3.6%',
+                    source: 'quote',
+                    highlight: '3.6 percent'
+                },
+                {
+                    name: 'study_duration',
+                    value: '8 months',
+                    source: 'quote',
+                    highlight: 'eight months'
+                },
+                {
+                    name: 'sex_frequency',
+                    value: '2x per week',
+                    source: 'assumption',
+                    note: 'Average for monogamous couples (not stated in study)'
+                },
+                {
+                    name: 'total_acts',
+                    value: '~69 acts',
+                    source: 'calculated',
+                    calculation: '8 months × 4.33 weeks × 2 acts/week ≈ 69 acts'
+                }
+            ],
+            steps: [
+                'From quote: transmission_8mo = 3.6%',
+                'From quote: study_duration = 8 months',
+                '⚠️ Assumed: sex_frequency = 2x per week (not in study)',
+                'Calculated: total_acts = 8 × 4.33 × 2 ≈ 69',
+                'Formula: per_act_rate = 1 - (1 - transmission_8mo)^(1/total_acts)',
+                'Calculation: per_act_rate = 1 - (1 - 0.036)^(1/69)',
+                'per_act_rate ≈ 0.00053 = 0.053%'
+            ],
+            result: {
+                name: 'per_act_transmission_rate',
+                value: '0.053%',
+                numericValue: 0.00053
             },
-            withAntiviralsAnnualRate: {
-                value: 0.0285, // 2.85% per year  
-                calculation: '1.9% per 8 months → 1.9% × (12/8) = 2.85% per year',
-                assumption: '⚠️ Assumes linear extrapolation from 8 months to 12 months'
-            }
+            warnings: ['Sex frequency assumed (not stated in study)']
         }
     },
     

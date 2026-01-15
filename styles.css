@@ -1347,6 +1347,143 @@ mjx-container {
     color: #fbbf24;
 }
 
+/* Quote highlighting for extracted variables */
+.quote-ellipsis {
+    color: var(--text-muted);
+    padding: 0 0.25rem;
+}
+
+.quote-highlight {
+    background: rgba(245, 158, 11, 0.25);
+    color: var(--accent-secondary);
+    padding: 0.1rem 0.2rem;
+    border-radius: 2px;
+    cursor: help;
+}
+
+/* Unverified number styling */
+.citable-unverified {
+    color: var(--warning);
+    border-bottom: 1px dashed var(--warning);
+    cursor: help;
+}
+
+/* Step-by-step derivation display */
+.derive-variables,
+.derive-steps {
+    margin: 0.75rem 0;
+    padding: 0.5rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-sm);
+}
+
+.derive-section-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+}
+
+.derive-var {
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    padding: 0.25rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.derive-var-icon {
+    flex-shrink: 0;
+}
+
+.derive-var-name {
+    color: var(--accent-primary);
+    font-weight: 500;
+}
+
+.derive-var-value {
+    color: var(--text-primary);
+}
+
+.derive-var-note {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    font-style: italic;
+    width: 100%;
+    padding-left: 1.5rem;
+}
+
+.derive-var.var-from-quote .derive-var-name {
+    color: #34d399; /* Green for sourced values */
+}
+
+.derive-var.var-assumed .derive-var-name {
+    color: #fbbf24; /* Amber for assumptions */
+}
+
+.derive-var.var-calculated .derive-var-name {
+    color: #60a5fa; /* Blue for calculated */
+}
+
+.derive-step {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    padding: 0.2rem 0;
+    border-left: 2px solid var(--border-subtle);
+    padding-left: 0.5rem;
+    margin: 0.15rem 0;
+}
+
+.derive-step.step-warning {
+    border-left-color: var(--warning);
+    color: var(--warning);
+}
+
+.derive-result {
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+    border: 1px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+}
+
+.derive-result-name {
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
+.derive-result-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+.derive-warnings {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--warning);
+}
+
+.derive-warning {
+    font-size: 0.7rem;
+    color: var(--warning);
+}
+
+/* Make tooltip wider for derivations */
+.citable[data-source*="derived"] .cite-tooltip,
+.citable .cite-tooltip:has(.derive-variables) {
+    width: 380px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
 /* Adjust tooltip position for elements near edges */
 .citable.tooltip-left .cite-tooltip {
     left: 0;
