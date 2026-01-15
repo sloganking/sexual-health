@@ -20,8 +20,8 @@ const STI_DATA = {
         },
         // Condom effectiveness (reduction factor)
         condomEffectiveness: 0.80,  // 80% reduction
-        source: 'CDC HIV Risk Behaviors',
-        sourceUrl: 'https://www.cdc.gov/hiv/risk/estimates/riskbehaviors.html',
+        source: 'CDC HIV Risk',
+        sourceUrl: 'https://www.cdc.gov/hiv/risk/index.html',
         notes: 'Rates assume detectable viral load. Undetectable = Untransmittable (U=U).'
     },
     
@@ -88,8 +88,8 @@ const STI_DATA = {
             ftm: 0.30     // 30% (symmetric)
         },
         condomEffectiveness: 0.50,  // ~50% (sore may not be covered)
-        source: 'CDC Syphilis Fact Sheet',
-        sourceUrl: 'https://www.cdc.gov/std/syphilis/stdfact-syphilis-detailed.htm',
+        source: 'CDC Syphilis Overview',
+        sourceUrl: 'https://www.cdc.gov/syphilis/about/index.html',
         notes: 'Transmission varies dramatically by stage. Highest risk during primary stage (chancre).'
     }
 };
