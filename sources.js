@@ -562,6 +562,82 @@ const SOURCES = {
             },
             warnings: ['This is LIFETIME probability, not per-act or per-partnership', 'Most sexually active people will acquire HPV at some point']
         }
+    },
+    
+    // ===========================================
+    // CONDOM EFFECTIVENESS SOURCES
+    // ===========================================
+    
+    syphilis_condom_effectiveness: {
+        id: 'syphilis_condom_effectiveness',
+        name: 'PMC Review - Condom Effectiveness for Syphilis',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4660551/',
+        quote: 'syphilis transmission is reduced 29% for typical use ... It is reduced 50-71% when condoms are used 100% of the time correctly',
+        verifiedDate: '2025-01-14',
+        type: 'webpage',
+        isDerived: false,
+        derivation: {
+            variables: [
+                {
+                    name: 'typical_use_reduction',
+                    value: '29%',
+                    source: 'quote',
+                    highlight: '29%'
+                },
+                {
+                    name: 'consistent_use_reduction',
+                    value: '50-71%',
+                    source: 'quote',
+                    highlight: '50-71%'
+                }
+            ],
+            steps: [
+                'From quote: typical_use_reduction = 29%',
+                'From quote: consistent_use_reduction = 50-71% (when used 100% of the time correctly)',
+                'Using midpoint of consistent use range: (50 + 71) / 2 = 60.5%'
+            ],
+            result: {
+                name: 'condom_effectiveness',
+                value: '60.5% (consistent use, midpoint of 50-71% range)'
+            },
+            warnings: [
+                '⚠️ Wide range (50-71%) reflects uncertainty in the data',
+                '⚠️ Syphilis can transmit through sores not covered by condom',
+                '⚠️ Typical use (29%) much lower than consistent correct use (50-71%)'
+            ]
+        }
+    },
+    
+    hpv_condom_effectiveness: {
+        id: 'hpv_condom_effectiveness',
+        name: 'MDedge - Condoms Prevent HPV Transmission Study',
+        url: 'https://community.the-hospitalist.org/content/condoms-found-prevent-hpv-transmission',
+        quote: 'Women whose sexual partners consistently used condoms were 70% less likely to acquire genital human papillomavirus infection than were those whose partners did not',
+        verifiedDate: '2025-01-14',
+        type: 'webpage',
+        isDerived: false,
+        derivation: {
+            variables: [
+                {
+                    name: 'risk_reduction',
+                    value: '70%',
+                    source: 'quote',
+                    highlight: '70%'
+                }
+            ],
+            steps: [
+                'From quote: consistent condom use resulted in 70% less likely to acquire HPV',
+                'This is a risk reduction percentage, so effectiveness = 70%'
+            ],
+            result: {
+                name: 'condom_effectiveness',
+                value: '70%'
+            },
+            warnings: [
+                '⚠️ Study focused on female acquisition from male partners',
+                '⚠️ HPV can transmit through skin contact not covered by condom'
+            ]
+        }
     }
 };
 

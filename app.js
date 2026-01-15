@@ -91,10 +91,15 @@ const STI_DATA = {
                 note: 'Derived from 5.6 per 100 person-months with assumed frequency'
             }
         },
-        condomEffectiveness: { value: 0.70, sourceId: null },  // Approximate, limited protection
+        condomEffectiveness: { 
+            value: 0.70,  // 70% reduction with consistent use
+            sourceId: 'hpv_condom_effectiveness',
+            isUnverified: false,
+            note: '70% reduction with consistent condom use'
+        },
         source: 'Malagón et al. 2021 (HITCH cohort)',
         sourceUrl: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC8012224/',
-        notes: 'Per-act rates derived from person–month transmission rates assuming 2 sex acts/week. Condoms provide limited protection. Vaccine is most effective prevention.'
+        notes: 'Per-act rates derived from person–month transmission rates. Condoms 70% effective. Vaccine is most effective prevention.'
     },
     
     chlamydia: {
@@ -180,14 +185,14 @@ const STI_DATA = {
             }
         },
         condomEffectiveness: { 
-            value: 0.50, 
-            sourceId: null,
-            isUnverified: true,
-            note: 'Approximate estimate - limited protection due to sores outside condom area'
+            value: 0.605,  // Midpoint of 50-71% range for consistent correct use
+            sourceId: 'syphilis_condom_effectiveness',
+            isUnverified: false,
+            note: '50-71% reduction with consistent correct use (60.5% midpoint)'
         },
         source: 'ASHM Contact Tracing Guidelines',
         sourceUrl: 'https://contacttracing.ashm.org.au/syphilis/',
-        notes: 'Per-act rate >20% for EARLY syphilis (primary, secondary, early latent). Late syphilis is usually not infectious. Curable with antibiotics.'
+        notes: 'Per-act rate >20% for EARLY syphilis. Condoms 50-71% effective (can transmit through uncovered sores). Curable with antibiotics.'
     }
 };
 
