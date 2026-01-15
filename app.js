@@ -445,7 +445,14 @@ class RiskCalculator {
         this.chart = null;
         this.initElements();
         this.bindEvents();
+        this.syncLabelsWithSliders();
         this.updateCalculation();
+    }
+    
+    syncLabelsWithSliders() {
+        // Sync labels with actual slider values (browsers may restore cached values)
+        this.frequencyValue.textContent = this.getFrequencyLabel(parseInt(this.frequencyInput.value));
+        this.durationValue.textContent = this.durationInput.value;
     }
     
     initElements() {
