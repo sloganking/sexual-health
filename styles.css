@@ -572,10 +572,15 @@ input[type="range"]::-moz-range-thumb {
     font-family: var(--font-mono);
 }
 
+.rate-value-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .rate-reduction {
     font-size: 0.75rem;
     color: #10b981;
-    margin-left: 0.5rem;
     font-weight: 500;
 }
 
