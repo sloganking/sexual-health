@@ -313,30 +313,18 @@
                         </table>
                     </div>
                     <details class="sti-details">
-                        <summary>View Full Details & Math</summary>
+                        <summary>Key Context</summary>
                         <div class="details-content">
-                            <h5>Key Context</h5>
                             <p>
                                 HIV transmission probability varies significantly based on viral load, presence of other STIs, 
                                 and stage of infection. The rates above assume a partner with detectable (untreated) HIV. 
                                 Partners on effective antiretroviral therapy with undetectable viral load have essentially 
                                 zero transmission risk (U=U: Undetectable = Untransmittable).
                             </p>
-                            <h5>Calculation Example</h5>
-                            <p>For a woman having unprotected sex with an HIV+ male partner, 2× per week for 1 year:</p>
-                            <div class="math-block">
-                                <p><strong>Mathematical notation:</strong></p>
-                                <p>\[ P_{cumulative} = 1 - (1 - r)^n \]</p>
-                                <p>Where \( r = 0.0008 \) (0.08%) and \( n = 2 \times 52 = 104 \) encounters</p>
-                                <p>\[ P = 1 - (1 - 0.0008)^{104} = 1 - 0.920 = 0.080 = 8.0\% \]</p>
-                            </div>
-                            <div class="code-block">
-                                <p><strong>JavaScript:</strong></p>
-<pre><code>const perActRisk = 0.0008;  // 0.08%
-const encounters = 2 * 52;   // 2x/week for 1 year
-const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
-// Result: 0.080 (8.0%)</code></pre>
-                            </div>
+                            <p>
+                                <strong>PrEP:</strong> Pre-exposure prophylaxis reduces risk by ~99% when taken daily.
+                                <strong>PEP:</strong> Post-exposure prophylaxis can prevent infection if started within 72 hours.
+                            </p>
                         </div>
                     </details>
                 </article>
@@ -398,26 +386,16 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                         </p>
                     </div>
                     <details class="sti-details">
-                        <summary>View Full Details & Math</summary>
+                        <summary>Key Context</summary>
                         <div class="details-content">
-                            <h5>Key Context</h5>
                             <p>
                                 HSV-2 transmission is complex because the virus sheds asymptomatically. Even without visible 
-                                sores, transmission can occur. The annual rates above come from studies of discordant couples 
-                                (one partner has HSV-2, the other doesn't) having regular sex.
+                                sores, transmission can occur. Avoiding sex during outbreaks significantly reduces risk.
                             </p>
-                            <h5>Calculating Per-Act Risk from Annual Risk</h5>
-                            <div class="math-block">
-                                <p>If annual risk is 10% with ~100 sex acts per year:</p>
-                                <p>\[ r_{act} = 1 - (1 - R_{annual})^{1/n} \]</p>
-                                <p>\[ r_{act} = 1 - (1 - 0.10)^{1/100} = 1 - 0.9989 = 0.0011 = 0.11\% \]</p>
-                            </div>
-                            <div class="code-block">
-<pre><code>const annualRisk = 0.10;  // 10% per year
-const actsPerYear = 100;
-const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
-// Result: ~0.0011 (0.11% per act)</code></pre>
-                            </div>
+                            <p>
+                                <strong>Daily antivirals</strong> (e.g., valacyclovir) reduce transmission by ~50% on top of condom use.
+                                Most people with HSV-2 are asymptomatic or have mild symptoms they don't recognize as herpes.
+                            </p>
                         </div>
                     </details>
                 </article>
@@ -478,22 +456,17 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                         </p>
                     </div>
                     <details class="sti-details">
-                        <summary>View Full Details & Math</summary>
+                        <summary>Key Context</summary>
                         <div class="details-content">
-                            <h5>Key Context</h5>
                             <p>
                                 HPV is unique because it's so common that "preventing" it may be unrealistic for 
                                 sexually active adults who aren't vaccinated. The medical establishment's approach 
                                 has largely been to expect exposure and rely on the immune system to clear it.
                             </p>
                             <p>
-                                The more important questions are: (1) Are you vaccinated? (2) Are you getting regular 
-                                screenings (Pap smears for cervix-havers)?
-                            </p>
-                            <h5>Why per-act rates are hard to pin down</h5>
-                            <p>
-                                Studies vary widely because: asymptomatic transmission is hard to track, 
-                                many people already have HPV, and different strains have different infectivity.
+                                <strong>The key questions:</strong> (1) Are you vaccinated? (2) Are you getting regular 
+                                screenings (Pap smears for cervix-havers)? The vaccine prevents the strains that cause 
+                                most cancers and genital warts.
                             </p>
                         </div>
                     </details>
@@ -554,27 +527,17 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                         </p>
                     </div>
                     <details class="sti-details">
-                        <summary>View Full Details & Math</summary>
+                        <summary>Key Context</summary>
                         <div class="details-content">
-                            <h5>Key Context</h5>
                             <p>
                                 Chlamydia is extremely common and often asymptomatic, which is why routine testing 
-                                is recommended. It's easily treated but can cause serious complications if left untreated.
+                                is recommended. It's easily treated but can cause serious complications if left untreated
+                                (pelvic inflammatory disease, infertility).
                             </p>
-                            <h5>Calculation Example</h5>
-                            <p>For a woman having unprotected sex with a partner who has chlamydia, 2× per week for 1 month:</p>
-                            <div class="math-block">
-                                <p>\[ P = 1 - (1 - 0.114)^{8} = 1 - 0.886^8 = 1 - 0.377 = 0.623 = 62.3\% \]</p>
-                            </div>
                             <p>
-                                This is why chlamydia spreads so easily — just a few encounters creates significant risk.
+                                <strong>Testing:</strong> Recommended annually for sexually active women under 25 and anyone 
+                                with new or multiple partners. Treatment is simple: a single dose of azithromycin or a week of doxycycline.
                             </p>
-                            <div class="code-block">
-<pre><code>const perActRisk = 0.114;  // 11.4%
-const encounters = 8;       // 2x/week for 1 month
-const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
-// Result: 0.623 (62.3%)</code></pre>
-                            </div>
                         </div>
                     </details>
                 </article>
@@ -634,21 +597,16 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                         </p>
                     </div>
                     <details class="sti-details">
-                        <summary>View Full Details & Math</summary>
+                        <summary>Key Context</summary>
                         <div class="details-content">
-                            <h5>Key Context</h5>
                             <p>
-                                Gonorrhea is highly infectious with a ~23% per-act transmission rate. 
-                                The source derives this as 2× the chlamydia rate.
+                                Gonorrhea is highly infectious — even a single unprotected encounter carries significant risk.
+                                Unlike chlamydia, gonorrhea often causes noticeable symptoms (burning, discharge).
                             </p>
-                            <h5>Calculation Example</h5>
-                            <p>A single unprotected encounter with an infected partner:</p>
-                            <div class="math-block">
-                                <p>\[ P = 0.228 = 22.8\% \]</p>
-                            </div>
                             <p>
-                                Even a single encounter has significant risk. This is why gonorrhea 
-                                spreads so rapidly.
+                                <strong>Antibiotic resistance</strong> is a growing concern. Current treatment requires a 
+                                ceftriaxone injection. If you've had gonorrhea, get retested 3 months after treatment to 
+                                ensure it's cleared and you haven't been reinfected.
                             </p>
                         </div>
                     </details>
@@ -675,7 +633,7 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                     </div>
                     <div class="sti-quick-facts">
                         <ul>
-                            <li>📈 Cases have increased 700% since 2015</li>
+                            <li>📈 Cases are surging after decades of decline</li>
                             <li>🔴 Primary stage: painless sore (chancre)</li>
                             <li>💊 Easily cured with penicillin</li>
                             <li>🛡️ Condoms reduce risk by 50-71% (sores may be outside covered area)</li>
@@ -710,18 +668,17 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                         </p>
                     </div>
                     <details class="sti-details">
-                        <summary>View Full Details & Math</summary>
+                        <summary>Key Context</summary>
                         <div class="details-content">
-                            <h5>Key Context</h5>
                             <p>
                                 Syphilis progresses through stages, and transmission risk varies dramatically. 
                                 The primary chancre (sore) is the most infectious period. If you can see a sore, 
                                 avoid contact — that's when transmission is most likely.
                             </p>
-                            <h5>The Syphilis Comeback</h5>
                             <p>
-                                After decades of decline, syphilis is surging. Congenital syphilis (passed to newborns) 
-                                increased 700% since 2015. Get tested if sexually active, especially with new partners.
+                                <strong>Syphilis is resurging</strong> after decades of decline. Get tested if sexually active, 
+                                especially with new partners. Treatment is simple: a penicillin injection cures it at any stage, 
+                                though damage from late-stage syphilis cannot be reversed.
                             </p>
                         </div>
                     </details>
