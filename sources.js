@@ -854,6 +854,112 @@ const SOURCES = {
             },
             warnings: []
         }
+    },
+    
+    // ===========================================
+    // TRICHOMONIASIS SOURCES - VERIFIED ✓
+    // ===========================================
+    
+    // Per-act transmission (unknown)
+    trich_ashm_per_act: {
+        id: 'trich_ashm_per_act',
+        name: 'ASHM Contact Tracing - Trichomoniasis Per-Act',
+        url: 'https://contacttracing.ashm.org.au/trichomoniasis/',
+        quote: 'Likelihood of transmission per act of unprotected intercourse ... Unknown, likely moderate to high',
+        verifiedDate: '2025-01-14',
+        type: 'guideline',
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'per_act_rate', value: 'Unknown', source: 'quote', highlight: 'Unknown, likely moderate to high' }
+            ],
+            steps: ['No quantified per-act transmission rate exists for trichomoniasis'],
+            result: { name: 'per_act_transmission', value: null },
+            warnings: ['Per-act rate not quantified in medical literature', 'Believed to transmit readily during vaginal sex']
+        }
+    },
+    
+    // CDC prevalence and symptoms
+    trich_cdc_prevalence: {
+        id: 'trich_cdc_prevalence',
+        name: 'CDC STI Treatment Guidelines - Trichomoniasis',
+        url: 'https://www.cdc.gov/std/treatment-guidelines/trichomoniasis.htm',
+        quote: 'Trichomoniasis is estimated to be the most prevalent nonviral STI worldwide, affecting approximately 2.6 million persons in the United States ... The U.S. population-based T. vaginalis prevalence is 2.1% among females and 0.5% among males',
+        verifiedDate: '2025-01-14',
+        type: 'guideline',
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'us_cases', value: '~2.6 million', source: 'quote', highlight: '2.6 million persons' },
+                { name: 'female_prevalence', value: '2.1%', source: 'quote', highlight: '2.1% among females' },
+                { name: 'male_prevalence', value: '0.5%', source: 'quote', highlight: '0.5% among males' }
+            ],
+            steps: ['Most common curable STI in the US'],
+            result: { name: 'prevalence', value: '~2.6 million US cases' },
+            warnings: []
+        }
+    },
+    
+    // Asymptomatic rate
+    trich_cdc_asymptomatic: {
+        id: 'trich_cdc_asymptomatic',
+        name: 'CDC STI Treatment Guidelines - Trichomoniasis Symptoms',
+        url: 'https://www.cdc.gov/std/treatment-guidelines/trichomoniasis.htm',
+        quote: 'The majority of persons who have trichomoniasis (70% ... 85%) either have minimal or no genital symptoms ... untreated infections might last from months to years',
+        verifiedDate: '2025-01-14',
+        type: 'guideline',
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'asymptomatic_rate', value: '70-85%', source: 'quote', highlight: '70%–85%' }
+            ],
+            steps: ['Most infections are asymptomatic'],
+            result: { name: 'symptom_rate', value: '70-85% have no symptoms' },
+            warnings: ['Untreated infections can persist for months to years']
+        }
+    },
+    
+    // WHO global incidence
+    trich_who_global: {
+        id: 'trich_who_global',
+        name: 'WHO Fact Sheet - Trichomoniasis',
+        url: 'https://www.who.int/news-room/fact-sheets/detail/trichomoniasis',
+        quote: 'In 2020 there were approximately 156 million new cases of T. vaginalis infection among people aged 15 ... 49 years old',
+        verifiedDate: '2025-01-14',
+        type: 'factsheet',
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'global_annual_cases', value: '156 million', source: 'quote', highlight: '156 million new cases' }
+            ],
+            steps: ['Most common non-viral STI globally'],
+            result: { name: 'global_incidence', value: '156 million new cases/year' },
+            warnings: []
+        }
+    },
+    
+    // ===========================================
+    // HEPATITIS C SOURCES - VERIFIED ✓
+    // ===========================================
+    
+    // Sexual transmission is negligible
+    hepc_sexual_negligible: {
+        id: 'hepc_sexual_negligible',
+        name: 'AIDSmap - Hepatitis C Sexual Transmission',
+        url: 'https://www.aidsmap.com/news/mar-2013/sexual-transmission-hepatitis-c-very-rare-monogamous-heterosexual-couples',
+        quote: 'Sexual transmission of hepatitis C virus (HCV) among monogamous heterosexual couples is extremely rare ... The maximum incidence of sexual transmission was just 0.07% per year, equivalent to just one transmission per 190,000 sexual contacts',
+        verifiedDate: '2025-01-14',
+        type: 'news',
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'annual_rate', value: '0.07%', source: 'quote', highlight: '0.07% per year' },
+                { name: 'per_contact_rate', value: '1 in 190,000', source: 'quote', highlight: 'one transmission per 190,000 sexual contacts' }
+            ],
+            steps: ['Sexual transmission of HCV is essentially negligible for heterosexual couples'],
+            result: { name: 'per_act_transmission', value: '~0.0005% (1 in 190,000)' },
+            warnings: ['This is for monogamous heterosexual couples', 'Risk may be higher with blood exposure or HIV co-infection']
+        }
     }
 };
 
