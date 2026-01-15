@@ -9,6 +9,7 @@ This is the #1 rule for this project and MUST NEVER be broken:
 ### What This Means:
 
 1. **NO implicit knowledge**: If the quote says "the rate is 6%" but doesn't say "for chlamydia", you CANNOT claim it's for chlamydia in your derivation unless:
+
    - You add more context to the quote that makes it explicit, OR
    - You mark it as an INFERENCE with ⚠️ warning
 
@@ -34,9 +35,17 @@ This is the #1 rule for this project and MUST NEVER be broken:
 - If you only have per-partnership data and cannot derive per-act, set `value: null`
 - The calculator will show "Data not available" which is HONEST
 
+### No Unused Variables:
+
+- Every variable in `derivation.variables` MUST be used in `derivation.steps` or `derivation.result`
+- If a variable is extracted from the quote but not used in the calculation, REMOVE IT
+- The quote should only contain text needed to derive the result
+- Confidence intervals, ranges, and other context should be removed unless used in calculation
+
 ### Running Verification:
 
 After ANY change to sources.js, run:
+
 ```
 node test-sources.js
 ```
@@ -51,3 +60,5 @@ All quotes must pass verification. If a quote fails, it's WRONG.
 - [ ] Quote includes enough context to be understandable alone
 - [ ] `node test-sources.js` passes
 - [ ] Per-partnership rates are NOT used as per-act rates
+- [ ] NO unused variables - every variable must be used in steps/result
+- [ ] Quote contains ONLY text needed for derivation (no extra context)
