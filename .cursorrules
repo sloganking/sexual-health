@@ -1,0 +1,53 @@
+# Sexual Health Website - Citation Rules
+
+## ABSOLUTE RULE: All Knowledge Must Come From Quoted Text
+
+This is the #1 rule for this project and MUST NEVER be broken:
+
+**Every piece of information used in a calculation or derivation MUST be explicitly stated in the quoted text shown to the user.**
+
+### What This Means:
+
+1. **NO implicit knowledge**: If the quote says "the rate is 6%" but doesn't say "for chlamydia", you CANNOT claim it's for chlamydia in your derivation unless:
+   - You add more context to the quote that makes it explicit, OR
+   - You mark it as an INFERENCE with ⚠️ warning
+
+2. **NO AI background knowledge**: Even if you "know" something from training data, if it's not in the quote, it doesn't exist for derivation purposes.
+
+3. **NO assumptions without warnings**: Every assumption must be marked with ⚠️ and clearly explained.
+
+### Before Adding Any Source:
+
+1. Read the exact quote out loud
+2. Ask: "Can a human derive every claim I'm making ONLY from this quoted text?"
+3. If NO → add more context to the quote OR mark as INFERENCE with warning
+
+### Variable Types in Derivations:
+
+- 📖 `source: 'quote'` - Directly stated in quoted text
+- ⚠️ `source: 'inference'` - Logically implied but not explicitly stated (MUST have warning)
+- ⚠️ `source: 'assumption'` - Not in source at all, assumed (MUST have warning)
+
+### Per-Partnership vs Per-Act:
+
+- NEVER use per-partnership rates as per-act rates
+- If you only have per-partnership data and cannot derive per-act, set `value: null`
+- The calculator will show "Data not available" which is HONEST
+
+### Running Verification:
+
+After ANY change to sources.js, run:
+```
+node test-sources.js
+```
+
+All quotes must pass verification. If a quote fails, it's WRONG.
+
+## Checklist Before Committing Source Changes:
+
+- [ ] Every variable in derivation.variables is explicitly quoted
+- [ ] Inferences are marked with `source: 'inference'` and have warnings
+- [ ] Assumptions are marked with `source: 'assumption'` and have warnings
+- [ ] Quote includes enough context to be understandable alone
+- [ ] `node test-sources.js` passes
+- [ ] Per-partnership rates are NOT used as per-act rates

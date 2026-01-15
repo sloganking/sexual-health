@@ -268,35 +268,46 @@ const SOURCES = {
         id: 'chlamydia_ncbi_per_act',
         name: 'NCBI Book - Chlamydia Per-Act Transmission',
         url: 'https://www.ncbi.nlm.nih.gov/books/NBK261441/',
-        quote: 'the per-sex act transmission probability is uniformly distributed between 6% and 16.7%',
+        quote: 'the per-sex act transmission probability is uniformly distributed between 6% and 16.7% ... the per-sex act transmission probability for gonorrhoea is assumed to be twice that of chlamydia',
         verifiedDate: '2025-01-14',
         type: 'webpage',
         isDerived: true,
         derivation: {
             variables: [
                 {
-                    name: 'per_act_min',
-                    value: '6%',
+                    name: 'per_act_range',
+                    value: '6% to 16.7%',
                     source: 'quote',
-                    highlight: '6%'
+                    highlight: '6% and 16.7%'
                 },
                 {
-                    name: 'per_act_max',
-                    value: '16.7%',
+                    name: 'gonorrhea_relation',
+                    value: '2× chlamydia',
                     source: 'quote',
-                    highlight: '16.7%'
+                    highlight: 'twice that of chlamydia'
+                },
+                {
+                    name: 'chlamydia_per_act',
+                    value: '6% to 16.7%',
+                    source: 'inference',
+                    highlight: '⚠️ INFERRED: Since gonorrhea = 2× chlamydia, the 6-16.7% rate must be for chlamydia'
                 }
             ],
             steps: [
-                'From quote: per-act range = 6% to 16.7%',
-                'Midpoint: (6 + 16.7) / 2 = 11.35%',
-                'Using midpoint as point estimate'
+                'From quote: per-sex act rate = 6% to 16.7%',
+                'From quote: gonorrhoea = "twice that of chlamydia"',
+                '⚠️ INFERENCE: The 6-16.7% must be for chlamydia (since gonorrhoea is defined relative to it)',
+                'Midpoint: (6 + 16.7) / 2 = 11.35%'
             ],
             result: {
                 name: 'per_act_transmission_rate',
                 value: '~11% (range 6-17%)'
             },
-            warnings: ['Wide range reflects uncertainty', 'Study does not distinguish M→F vs F→M']
+            warnings: [
+                '⚠️ Rate being for chlamydia is INFERRED, not explicitly stated',
+                'Wide range reflects uncertainty',
+                'Study does not distinguish M→F vs F→M'
+            ]
         }
     },
     
@@ -384,30 +395,40 @@ const SOURCES = {
                     highlight: '62.5%'
                 },
                 {
-                    name: 'chlamydia_per_act_range',
+                    name: 'per_act_range',
                     value: '6% to 16.7%',
                     source: 'quote',
                     highlight: '6% and 16.7%'
                 },
                 {
-                    name: 'gonorrhea_relative',
+                    name: 'gonorrhea_is_2x_chlamydia',
                     value: '2× chlamydia',
                     source: 'quote',
                     highlight: 'twice that of chlamydia'
+                },
+                {
+                    name: 'chlamydia_per_act',
+                    value: '6% to 16.7%',
+                    source: 'inference',
+                    highlight: '⚠️ INFERRED: 6-16.7% must be chlamydia since gonorrhea is relative to it'
                 }
             ],
             steps: [
-                'From quote: chlamydia per-act = 6% to 16.7%',
-                'Midpoint: chlamydia per-act ≈ 11.4%',
-                'From quote: gonorrhea per-act = 2× chlamydia',
-                'Calculation: gonorrhea per-act ≈ 2 × 11.4% = 22.8%',
-                '⚠️ Note: Range is wide (12% to 33%)'
+                'From quote: per-sex act rate = 6% to 16.7%',
+                'From quote: gonorrhea per-act = "twice that of chlamydia"',
+                '⚠️ INFERENCE: 6-16.7% must be for chlamydia',
+                'Chlamydia midpoint: (6 + 16.7) / 2 = 11.4%',
+                'Gonorrhea = 2 × 11.4% = 22.8%'
             ],
             result: {
                 name: 'per_act_transmission_rate',
                 value: '~23% (range 12-33%)'
             },
-            warnings: ['Wide range due to uncertainty in chlamydia rate', 'Gonorrhea rate derived as 2× chlamydia per model assumption']
+            warnings: [
+                '⚠️ Chlamydia rate is INFERRED, not explicitly stated',
+                'Wide range due to uncertainty (12-33%)',
+                'Gonorrhea derived as 2× chlamydia per model assumption'
+            ]
         }
     },
     
