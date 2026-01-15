@@ -10,6 +10,16 @@
 const https = require('https');
 const http = require('http');
 const { SOURCES } = require('./sources.js');
+const includeBackup = process.argv.includes('--include-backup');
+let BACKUP_SOURCES = {};
+if (includeBackup) {
+    try {
+        ({ BACKUP_SOURCES } = require('./sources-backup.js'));
+    } catch (error) {
+        console.error('Failed to load sources-backup.js:', error.message);
+        process.exit(1);
+    }
+}
 
 // ANSI color codes for terminal output
 const colors = {
@@ -195,12 +205,16 @@ async function runTests() {
     console.log('║          SOURCE VERIFICATION TEST SUITE                     ║');
     console.log('║          Know Your Numbers - Sexual Health                  ║');
     console.log('╚════════════════════════════════════════════════════════════╝');
-    console.log(`\nTesting ${Object.keys(SOURCES).length} sources...\n`);
+    const sourcesToTest = includeBackup
+        ? { ...SOURCES, ...BACKUP_SOURCES }
+        : SOURCES;
+    const backupNote = includeBackup ? ' (including backup sources)' : '';
+    console.log(`\nTesting ${Object.keys(sourcesToTest).length} sources${backupNote}...\n`);
     
     const startTime = Date.now();
     
-    for (const sourceId of Object.keys(SOURCES)) {
-        await testSource(SOURCES[sourceId]);
+    for (const sourceId of Object.keys(sourcesToTest)) {
+        await testSource(sourcesToTest[sourceId]);
         // Small delay to be respectful to servers
         await new Promise(resolve => setTimeout(resolve, 500));
     }
