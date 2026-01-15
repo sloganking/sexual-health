@@ -284,7 +284,7 @@
                         <ul>
                             <li>🔬 Low per-act transmission but serious consequences</li>
                             <li>💊 Antiretroviral treatment makes viral load undetectable = untransmittable</li>
-                            <li>🛡️ Condoms reduce risk by ~80-85%</li>
+                            <li>🛡️ Condoms reduce risk by 80%</li>
                             <li>💉 PrEP reduces risk by ~99% when taken daily</li>
                             <li>⚠️ Higher risk with other STIs present (inflammation)</li>
                         </ul>
@@ -296,25 +296,21 @@
                                 <tr>
                                     <th>Direction</th>
                                     <th>No Condom</th>
-                                    <th>With Condom</th>
+                                    <th>Condom Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Male → Female</td>
-                                    <td><span class="citable" data-source="hiv_cdc_risk_estimates">0.08%<span class="cite-tooltip"><span class="cite-tooltip-source">CDC HIV Risk and Prevention Estimates</span><span class="cite-tooltip-quote">"Risk per 10,000 exposures <span style="color:#6b7280;">···</span> Receptive penile-vaginal intercourse <span style="color:#6b7280;">···</span> 8"</span><a href="https://www.cdc.gov/hivpartners/php/riskandprevention/index.html" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
-                                    <td>0.016%</td>
+                                    <td><span class="citable" data-source="hiv_cdc_risk_estimates">0.08%<span class="cite-tooltip"><span class="cite-tooltip-source">CDC HIV Risk and Prevention Estimates</span><span class="cite-tooltip-quote">"Risk per 10,000 exposures ... Receptive penile-vaginal intercourse ... 8"</span><a href="https://www.cdc.gov/hivpartners/php/riskandprevention/index.html" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td rowspan="2"><span class="citable" data-source="hiv_condom_effectiveness">80% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">CDC HIV Risk and Prevention Estimates</span><span class="cite-tooltip-quote">"Always using condoms, based on self-report, during sex with an HIV-positive partner reduces the risk of HIV acquisition by an estimated 80% among heterosexual men and women"</span><a href="https://www.cdc.gov/hivpartners/php/riskandprevention/index.html" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                                 <tr>
                                     <td>Female → Male</td>
-                                    <td><span class="citable" data-source="hiv_cdc_risk_estimates">0.04%<span class="cite-tooltip"><span class="cite-tooltip-source">CDC HIV Risk and Prevention Estimates</span><span class="cite-tooltip-quote">"Risk per 10,000 exposures <span style="color:#6b7280;">···</span> Insertive penile-vaginal intercourse <span style="color:#6b7280;">···</span> 4"</span><a href="https://www.cdc.gov/hivpartners/php/riskandprevention/index.html" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
-                                    <td>0.008%</td>
+                                    <td><span class="citable" data-source="hiv_cdc_risk_estimates">0.04%<span class="cite-tooltip"><span class="cite-tooltip-source">CDC HIV Risk and Prevention Estimates</span><span class="cite-tooltip-quote">"Risk per 10,000 exposures ... Insertive penile-vaginal intercourse ... 4"</span><a href="https://www.cdc.gov/hivpartners/php/riskandprevention/index.html" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p class="rate-source">
-                            Source: <a href="https://www.cdc.gov/hivpartners/php/riskandprevention/index.html" target="_blank">CDC HIV Risk and Prevention Estimates</a>
-                        </p>
                     </div>
                     <details class="sti-details">
                         <summary>View Full Details & Math</summary>
@@ -368,41 +364,37 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                         <ul>
                             <li>🔄 Transmits via skin-to-skin contact, not just fluids</li>
                             <li>😶 Most people are asymptomatic or have mild symptoms</li>
-                            <li>🛡️ Condoms reduce risk by ~30-50% (doesn't cover all skin)</li>
+                            <li>🛡️ Condoms reduce risk by 96% M→F, 65% F→M</li>
                             <li>💊 Daily antivirals (e.g., valacyclovir) reduce transmission by ~50%</li>
                             <li>📅 Avoiding sex during outbreaks significantly reduces risk</li>
                         </ul>
                     </div>
                     <div class="sti-rates">
-                        <h4>Transmission Rates</h4>
+                        <h4>Transmission Rates (per vaginal sex act)</h4>
                         <table class="rates-table">
                             <thead>
                                 <tr>
                                     <th>Direction</th>
-                                    <th>Annual Risk (no prevention)</th>
-                                    <th>Condom + Antivirals</th>
+                                    <th>No Condom</th>
+                                    <th>Condom Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Male → Female</td>
-                                    <td>~10% per year</td>
-                                    <td>~2.5% per year</td>
+                                    <td><span class="citable" data-source="hsv2_per_act_derived">0.053%<span class="cite-tooltip"><span class="cite-tooltip-source">Corey et al. 2004 (NEJM) — Derived</span><span class="cite-tooltip-quote">"The overall rate of transmission of HSV-2 was 3.6 per 100 person-years" — Derived to per-act assuming ~70 acts over 8-month study period</span><a href="https://pubmed.ncbi.nlm.nih.gov/14702423/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td><span class="citable" data-source="hsv2_condom_effectiveness">96% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">Martin et al. 2009 (PMC)</span><span class="cite-tooltip-quote">"condom use was associated with a lower risk of HSV-2 acquisition by susceptible women (hazard ratio 0.04)"</span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4725379/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                                 <tr>
                                     <td>Female → Male</td>
-                                    <td>~4% per year</td>
-                                    <td>~1% per year</td>
+                                    <td><span class="citable" data-source="hsv2_per_act_derived">0.053%<span class="cite-tooltip"><span class="cite-tooltip-source">Corey et al. 2004 (NEJM) — Derived</span><span class="cite-tooltip-quote">"The overall rate of transmission of HSV-2 was 3.6 per 100 person-years" — Derived to per-act (study didn't distinguish direction)</span><a href="https://pubmed.ncbi.nlm.nih.gov/14702423/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td><span class="citable" data-source="hsv2_condom_effectiveness">65% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">Martin et al. 2009 (PMC)</span><span class="cite-tooltip-quote">"condom use was associated with a lower risk of HSV-2 acquisition by susceptible men (hazard ratio 0.35)"</span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4725379/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                             </tbody>
                         </table>
                         <p class="rate-note">
-                            Note: HSV-2 data is typically reported annually, not per-act, because shedding is intermittent.
-                            Per-act rates can be estimated at ~0.1-0.2% during asymptomatic periods.
-                        </p>
-                        <p class="rate-source">
-                            Source: <a href="https://pubmed.ncbi.nlm.nih.gov/1656936/" target="_blank">Mertz et al. 1992</a>,
-                            <a href="https://pubmed.ncbi.nlm.nih.gov/14676829/" target="_blank">Corey et al. 2004</a>
+                            Note: Per-act rate derived from 8-month study. HSV-2 sheds asymptomatically, so transmission 
+                            can occur without visible sores. Daily antivirals reduce transmission by ~50% on top of condoms.
                         </p>
                     </div>
                     <details class="sti-details">
@@ -453,42 +445,36 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                         <ul>
                             <li>📊 Most sexually active people get HPV at some point</li>
                             <li>🧬 200+ strains; most are harmless, some cause cancer</li>
-                            <li>🛡️ Condoms reduce risk by ~70% (skin-to-skin transmission)</li>
+                            <li>🛡️ Condoms reduce risk by 70% with consistent use</li>
                             <li>💉 Vaccine prevents the most dangerous strains</li>
                             <li>⏳ 90% of infections clear within 2 years</li>
                         </ul>
                     </div>
                     <div class="sti-rates">
-                        <h4>Transmission Rates</h4>
+                        <h4>Transmission Rates (per vaginal sex act)</h4>
                         <table class="rates-table">
                             <thead>
                                 <tr>
-                                    <th>Scenario</th>
-                                    <th>Risk</th>
+                                    <th>Direction</th>
+                                    <th>No Condom</th>
+                                    <th>Condom Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Per new partner (cumulative)</td>
-                                    <td>~20-40%</td>
+                                    <td>Male → Female</td>
+                                    <td><span class="citable" data-source="hpv_hitch_2021">0.41%<span class="cite-tooltip"><span class="cite-tooltip-source">Malagón et al. 2021 (HITCH cohort) — Derived</span><span class="cite-tooltip-quote">"3.5 per 100 person–months among women" — Derived to per-act assuming 2×/week</span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8012224/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td rowspan="2"><span class="citable" data-source="hpv_condom_effectiveness">70% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">MDedge / Winer et al.</span><span class="cite-tooltip-quote">"Women whose sexual partners consistently used condoms were 70% less likely to acquire genital human papillomavirus infection"</span><a href="https://www.mdedge.com/obgyn/article/62624/stis/condoms-found-prevent-hpv-transmission" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                                 <tr>
-                                    <td>Per-act estimate</td>
-                                    <td>~5-20%</td>
-                                </tr>
-                                <tr>
-                                    <td>With consistent condom use</td>
-                                    <td>~6-12% per partner</td>
+                                    <td>Female → Male</td>
+                                    <td><span class="citable" data-source="hpv_hitch_2021">0.66%<span class="cite-tooltip"><span class="cite-tooltip-source">Malagón et al. 2021 (HITCH cohort) — Derived</span><span class="cite-tooltip-quote">"5.6 per 100 person–months among men" — Derived to per-act assuming 2×/week</span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8012224/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                             </tbody>
                         </table>
                         <p class="rate-note">
-                            HPV transmission is highly variable and hard to study due to asymptomatic nature and 
-                            high baseline prevalence.
-                        </p>
-                        <p class="rate-source">
-                            Source: <a href="https://pubmed.ncbi.nlm.nih.gov/21774844/" target="_blank">Burchell et al. 2011</a>,
-                            <a href="https://pubmed.ncbi.nlm.nih.gov/17303679/" target="_blank">Winer et al. 2006</a>
+                            Per-act rates derived from person-month data. HPV is highly variable — most sexually active 
+                            people get it at some point. Vaccine is the most effective prevention.
                         </p>
                     </div>
                     <details class="sti-details">
@@ -537,7 +523,7 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                             <li>🦠 Most common bacterial STI</li>
                             <li>😶 ~70% of women and 50% of men have no symptoms</li>
                             <li>💊 Easily cured with antibiotics (usually azithromycin)</li>
-                            <li>🛡️ Condoms reduce risk by ~60-70%</li>
+                            <li>🛡️ Condoms reduce risk by 60%</li>
                             <li>⚠️ Untreated can cause PID, infertility</li>
                         </ul>
                     </div>
@@ -548,25 +534,23 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                                 <tr>
                                     <th>Direction</th>
                                     <th>No Condom</th>
-                                    <th>With Condom</th>
+                                    <th>Condom Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Male → Female</td>
-                                    <td>~10-15%</td>
-                                    <td>~3-5%</td>
+                                    <td><span class="citable" data-source="chlamydia_ncbi_per_act">11.4%<span class="cite-tooltip"><span class="cite-tooltip-source">NCBI Book NBK261441 — Derived</span><span class="cite-tooltip-quote">"the per-sex act transmission probability for chlamydia ... is in the range 6–16.7%" — Midpoint: 11.4%</span><a href="https://www.ncbi.nlm.nih.gov/books/NBK261441/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td rowspan="2"><span class="citable" data-source="chlamydia_condom_effectiveness">60% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">Crosby et al. 2004 (JAMA Pediatrics)</span><span class="cite-tooltip-quote">"We found that correct and consistent use of condoms reduced the risk of chlamydial infection by 60%"</span><a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/486033" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                                 <tr>
                                     <td>Female → Male</td>
-                                    <td>~5-10%</td>
-                                    <td>~1.5-3%</td>
+                                    <td><span class="citable" data-source="chlamydia_ncbi_per_act">11.4%<span class="cite-tooltip"><span class="cite-tooltip-source">NCBI Book NBK261441 — Derived</span><span class="cite-tooltip-quote">"the per-sex act transmission probability for chlamydia ... is in the range 6–16.7%" — Midpoint (no M→F vs F→M distinction in source)</span><a href="https://www.ncbi.nlm.nih.gov/books/NBK261441/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p class="rate-source">
-                            Source: <a href="https://academic.oup.com/jrsssa/article/174/4/975/7077900" target="_blank">Price et al. 2011 (JRSS)</a>,
-                            <a href="https://pubmed.ncbi.nlm.nih.gov/24188065/" target="_blank">Althaus et al. 2010</a>
+                        <p class="rate-note">
+                            Per-act rate is midpoint of 6-17% range. Source does not distinguish M→F vs F→M.
                         </p>
                     </div>
                     <details class="sti-details">
@@ -580,16 +564,16 @@ const perActRisk = 1 - Math.pow(1 - annualRisk, 1/actsPerYear);
                             <h5>Calculation Example</h5>
                             <p>For a woman having unprotected sex with a partner who has chlamydia, 2× per week for 1 month:</p>
                             <div class="math-block">
-                                <p>\[ P = 1 - (1 - 0.125)^{8} = 1 - 0.875^8 = 1 - 0.344 = 0.656 = 65.6\% \]</p>
+                                <p>\[ P = 1 - (1 - 0.114)^{8} = 1 - 0.886^8 = 1 - 0.377 = 0.623 = 62.3\% \]</p>
                             </div>
                             <p>
                                 This is why chlamydia spreads so easily — just a few encounters creates significant risk.
                             </p>
                             <div class="code-block">
-<pre><code>const perActRisk = 0.125;  // 12.5%
+<pre><code>const perActRisk = 0.114;  // 11.4%
 const encounters = 8;       // 2x/week for 1 month
 const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
-// Result: 0.656 (65.6%)</code></pre>
+// Result: 0.623 (62.3%)</code></pre>
                             </div>
                         </div>
                     </details>
@@ -619,7 +603,7 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                             <li>🦠 Second most common bacterial STI</li>
                             <li>⚠️ Increasing antibiotic resistance is a global concern</li>
                             <li>💊 Current treatment: ceftriaxone injection + azithromycin</li>
-                            <li>🛡️ Condoms reduce risk by ~50-70%</li>
+                            <li>🛡️ Condoms reduce risk by 90%</li>
                             <li>🔥 More likely to cause symptoms than chlamydia (burning, discharge)</li>
                         </ul>
                     </div>
@@ -630,28 +614,23 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                                 <tr>
                                     <th>Direction</th>
                                     <th>No Condom</th>
-                                    <th>With Condom</th>
+                                    <th>Condom Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>Male → Female</td>
-                                    <td>~50-70%</td>
-                                    <td>~15-25%</td>
+                                    <td><span class="citable" data-source="gonorrhea_ncbi_book">22.8%<span class="cite-tooltip"><span class="cite-tooltip-source">NCBI Book NBK261441 — Derived</span><span class="cite-tooltip-quote">"the per-sex act transmission probability for gonorrhoea is assumed to be twice that of chlamydia" (chlamydia 6-16.7%, midpoint 11.4% × 2 = 22.8%)</span><a href="https://www.ncbi.nlm.nih.gov/books/NBK261441/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td rowspan="2"><span class="citable" data-source="gonorrhea_condom_effectiveness">90% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">Crosby et al. 2004 (JAMA Pediatrics)</span><span class="cite-tooltip-quote">"We found that correct and consistent use of condoms reduced the risk of gonorrhea by 90%"</span><a href="https://jamanetwork.com/journals/jamapediatrics/fullarticle/486033" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                                 <tr>
                                     <td>Female → Male</td>
-                                    <td>~20-25%</td>
-                                    <td>~6-8%</td>
+                                    <td><span class="citable" data-source="gonorrhea_ncbi_book">22.8%<span class="cite-tooltip"><span class="cite-tooltip-source">NCBI Book NBK261441 — Derived</span><span class="cite-tooltip-quote">"the per-sex act transmission probability for gonorrhoea is assumed to be twice that of chlamydia" — Source does not distinguish M→F vs F→M</span><a href="https://www.ncbi.nlm.nih.gov/books/NBK261441/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                             </tbody>
                         </table>
                         <p class="rate-note">
-                            Gonorrhea has extremely high transmission rates, especially male-to-female.
-                        </p>
-                        <p class="rate-source">
-                            Source: <a href="https://pubmed.ncbi.nlm.nih.gov/7775396/" target="_blank">Hooper et al. 1978</a>,
-                            <a href="https://pubmed.ncbi.nlm.nih.gov/23569604/" target="_blank">Bernstein et al. 2013</a>
+                            Per-act rate derived from 2× chlamydia. Source does not distinguish M→F vs F→M.
                         </p>
                     </div>
                     <details class="sti-details">
@@ -659,16 +638,16 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                         <div class="details-content">
                             <h5>Key Context</h5>
                             <p>
-                                Gonorrhea is highly infectious. The asymmetry in transmission (male→female much higher) 
-                                is due to anatomy — the vagina is more susceptible to infection than the urethra.
+                                Gonorrhea is highly infectious with a ~23% per-act transmission rate. 
+                                The source derives this as 2× the chlamydia rate.
                             </p>
                             <h5>Calculation Example</h5>
-                            <p>A single unprotected encounter with an infected male partner:</p>
+                            <p>A single unprotected encounter with an infected partner:</p>
                             <div class="math-block">
-                                <p>\[ P = 0.60 = 60\% \]</p>
+                                <p>\[ P = 0.228 = 22.8\% \]</p>
                             </div>
                             <p>
-                                Yes — a single encounter can give you a 60% chance of infection. This is why gonorrhea 
+                                Even a single encounter has significant risk. This is why gonorrhea 
                                 spreads so rapidly.
                             </p>
                         </div>
@@ -699,41 +678,35 @@ const cumulativeRisk = 1 - Math.pow(1 - perActRisk, encounters);
                             <li>📈 Cases have increased 700% since 2015</li>
                             <li>🔴 Primary stage: painless sore (chancre)</li>
                             <li>💊 Easily cured with penicillin</li>
-                            <li>🛡️ Condoms reduce risk when covering the sore</li>
+                            <li>🛡️ Condoms reduce risk by 50-71% (sores may be outside covered area)</li>
                             <li>⚠️ Untreated can cause serious organ damage years later</li>
                         </ul>
                     </div>
                     <div class="sti-rates">
-                        <h4>Transmission Rates</h4>
+                        <h4>Transmission Rates (per vaginal sex act)</h4>
                         <table class="rates-table">
                             <thead>
                                 <tr>
-                                    <th>Scenario</th>
-                                    <th>Risk per Exposure</th>
+                                    <th>Stage</th>
+                                    <th>No Condom</th>
+                                    <th>Condom Effectiveness</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Contact with active sore (primary stage)</td>
-                                    <td>~30%</td>
-                                </tr>
-                                <tr>
-                                    <td>Secondary stage (rash)</td>
-                                    <td>~10-20%</td>
+                                    <td>Early syphilis (primary, secondary, early latent)</td>
+                                    <td><span class="citable" data-source="syphilis_ashm_per_act">&gt;20%<span class="cite-tooltip"><span class="cite-tooltip-source">ASHM Contact Tracing Guidelines</span><span class="cite-tooltip-quote">"The overall probability of transmission of syphilis during early infection is estimated to be greater than 20% per contact"</span><a href="https://contacttracing.ashm.org.au/syphilis/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
+                                    <td rowspan="2"><span class="citable" data-source="syphilis_condom_effectiveness">50-71% reduction<span class="cite-tooltip"><span class="cite-tooltip-source">PMC4660551 — Condom Review</span><span class="cite-tooltip-quote">"Syphilis transmission is reduced 29% for typical use. It is reduced 50–71% when condoms are used 100% of the time correctly."</span><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4660551/" target="_blank" class="cite-tooltip-link">View Source →</a></span></span></td>
                                 </tr>
                                 <tr>
                                     <td>Latent stage</td>
-                                    <td>Low (not well quantified)</td>
+                                    <td><span class="citable-unverified">Low<span class="unverified-tooltip">⚠️ Needs verification — not well quantified in literature</span></span></td>
                                 </tr>
                             </tbody>
                         </table>
                         <p class="rate-note">
-                            Syphilis transmission is highly dependent on stage of infection. Sores are extremely 
-                            infectious; latent stage has minimal transmission.
-                        </p>
-                        <p class="rate-source">
-                            Source: <a href="https://www.cdc.gov/syphilis/about/index.html" target="_blank">CDC Syphilis Overview</a>,
-                            <a href="https://pubmed.ncbi.nlm.nih.gov/29616617/" target="_blank">Tuite et al. 2018</a>
+                            Transmission depends heavily on stage. Primary/secondary stages are highly infectious. 
+                            Condoms less effective than for other STIs because sores may be outside covered area.
                         </p>
                     </div>
                     <details class="sti-details">
