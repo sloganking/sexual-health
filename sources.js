@@ -704,6 +704,59 @@ const SOURCES = {
             },
             warnings: []
         }
+    },
+    
+    // ===========================================
+    // TESTING WINDOW PERIOD SOURCES
+    // ===========================================
+    
+    hiv_window_period_cdc: {
+        id: 'hiv_window_period_cdc',
+        name: 'CDC - HIV Testing Window Periods',
+        url: 'https://www.cdc.gov/hiv/testing/index.html',
+        quote: 'A NAT can usually detect HIV 10 to 33 days after exposure ... An antigen/antibody lab test using blood from a vein can usually detect HIV 18 to 45 days after exposure ... A rapid antigen/antibody test done with blood from a finger stick can usually detect HIV 18 to 90 days after exposure ... Antibody tests can usually detect HIV 23 to 90 days after exposure',
+        verifiedDate: '2025-01-14',
+        type: 'webpage',
+        isDerived: false,
+        derivation: {
+            variables: [
+                {
+                    name: 'nat_window',
+                    value: '10-33 days',
+                    source: 'quote',
+                    highlight: '10 to 33 days'
+                },
+                {
+                    name: 'lab_antigen_antibody_window',
+                    value: '18-45 days',
+                    source: 'quote',
+                    highlight: '18 to 45 days'
+                },
+                {
+                    name: 'rapid_antigen_antibody_window',
+                    value: '18-90 days',
+                    source: 'quote',
+                    highlight: '18 to 90 days'
+                },
+                {
+                    name: 'antibody_window',
+                    value: '23-90 days',
+                    source: 'quote',
+                    highlight: '23 to 90 days'
+                }
+            ],
+            steps: [
+                'NAT (Nucleic Acid Test): 10-33 days',
+                'Antigen/antibody lab test (blood draw): 18-45 days',
+                'Rapid antigen/antibody test (finger stick): 18-90 days',
+                'Antibody test (most rapid/self-tests): 23-90 days'
+            ],
+            result: {
+                name: 'hiv_window_periods',
+                value: 'Varies by test type: 10-33 days (NAT) to 23-90 days (antibody)'
+            },
+            warnings: []
+        }
     }
 };
 
