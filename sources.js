@@ -646,7 +646,7 @@ const SOURCES = {
         url: 'https://jamanetwork.com/journals/jamapediatrics/fullarticle/486033',
         quote: 'We found that correct and consistent use of condoms reduced the risk of gonorrhea by 90%',
         verifiedDate: '2025-01-14',
-        manuallyVerified: true,  // Cloudflare blocks automated testing, manually verified by user
+        manuallyVerified: true,  // JAMA uses Cloudflare which blocks all automated requests - verified manually by user
         type: 'webpage',
         isDerived: false,
         derivation: {
@@ -676,7 +676,7 @@ const SOURCES = {
         url: 'https://jamanetwork.com/journals/jamapediatrics/fullarticle/486033',
         quote: 'We found that correct and consistent use of condoms reduced the risk of chlamydial infection by 60%',
         verifiedDate: '2025-01-14',
-        manuallyVerified: true,  // Cloudflare blocks automated testing, manually verified by user
+        manuallyVerified: true,  // JAMA uses Cloudflare which blocks all automated requests - verified manually by user
         type: 'webpage',
         isDerived: false,
         derivation: {

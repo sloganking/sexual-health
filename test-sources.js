@@ -39,6 +39,11 @@ const results = {
     errors: []
 };
 
+// Cache for fetched page contents (avoid re-fetching same URL)
+const pageCache = new Map();
+// Track in-flight requests to prevent duplicate fetches in parallel mode
+const fetchInProgress = new Map();
+
 /**
  * Normalize text for comparison
  * Removes extra whitespace, lowercases, removes punctuation variations
@@ -102,10 +107,15 @@ function fetchPageContent(url) {
     return new Promise((resolve, reject) => {
         const protocol = url.startsWith('https') ? https : http;
         
+        // Use realistic browser headers to avoid bot detection
         const options = {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (compatible; SourceVerifier/1.0)',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Language': 'en-US,en;q=0.9',
+                'Accept-Encoding': 'identity',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache'
             },
             timeout: 15000
         };
@@ -160,7 +170,7 @@ async function testSource(source) {
     
     // Skip automated testing for manually verified sources (e.g., Cloudflare-protected sites)
     if (manuallyVerified) {
-        console.log(`${colors.yellow}  ⊘ MANUALLY VERIFIED${colors.reset} - skipping automated test`);
+        console.log(`${colors.yellow}  ⊘ MANUALLY VERIFIED${colors.reset} (Cloudflare blocks automated tests)`);
         results.passed.push({ name, method: 'manually-verified' });
         return;
     }
@@ -179,7 +189,21 @@ async function testSource(source) {
     }
     
     try {
-        const content = await fetchPageContent(url);
+        // Use cached content if available (for multiple quotes from same URL)
+        let content;
+        if (pageCache.has(url)) {
+            content = pageCache.get(url);
+        } else if (fetchInProgress.has(url)) {
+            // Wait for in-flight request to complete
+            content = await fetchInProgress.get(url);
+        } else {
+            // Start new fetch and track it
+            const fetchPromise = fetchPageContent(url);
+            fetchInProgress.set(url, fetchPromise);
+            content = await fetchPromise;
+            pageCache.set(url, content);
+            fetchInProgress.delete(url);
+        }
         const result = quoteExistsInContent(quote, content);
         
         if (result.found) {
