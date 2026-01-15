@@ -9,131 +9,104 @@
 // STI TRANSMISSION DATA (with source references)
 // ============================================
 
+/**
+ * STI DATA
+ * 
+ * IMPORTANT: Only STIs with verified: true have passed source verification.
+ * Unverified STIs are disabled in the calculator until sources are confirmed.
+ */
 const STI_DATA = {
     hiv: {
         name: 'HIV',
+        verified: true,  // VERIFIED 2025-01-14
+        verificationNote: 'Verified against CDC HIV Risk and Prevention Estimates page',
         rates: {
             mtf: {
-                value: 0.0008,  // 0.08% = 8 per 10,000
-                sourceId: 'hiv_cdc_npep'
+                value: 0.0008,  // 8 per 10,000 = 0.08%
+                sourceId: 'hiv_cdc_risk_estimates'
             },
             ftm: {
-                value: 0.0004,  // 0.04% = 4 per 10,000
-                sourceId: 'hiv_cdc_npep'
+                value: 0.0004,  // 4 per 10,000 = 0.04%
+                sourceId: 'hiv_cdc_risk_estimates'
             }
         },
         condomEffectiveness: {
-            value: 0.80,  // 80% reduction
-            sourceId: 'hiv_condom_effectiveness'
+            value: null,  // Need to find verified source for condom effectiveness
+            sourceId: null
         },
-        source: 'CDC NPEP Guidelines',
-        sourceUrl: 'https://www.cdc.gov/hiv/pdf/programresources/cdc-hiv-npep-guidelines.pdf',
+        source: 'CDC HIV Risk and Prevention Estimates',
+        sourceUrl: 'https://www.cdc.gov/hivpartners/php/riskandprevention/index.html',
         notes: 'Rates assume detectable viral load. Undetectable = Untransmittable (U=U).'
     },
     
     hsv2: {
         name: 'Herpes (HSV-2)',
+        verified: false,
+        verificationNote: 'Sources not yet verified - do not use',
         rates: {
-            mtf: {
-                value: 0.0005,   // ~0.05% per act (derived from 5% annual / ~100 acts)
-                sourceId: 'hsv2_per_act_derived'
-            },
-            ftm: {
-                value: 0.0002,  // ~0.02% per act (derived from 1.9% annual / ~100 acts)
-                sourceId: 'hsv2_per_act_derived'
-            }
+            mtf: { value: null, sourceId: null },
+            ftm: { value: null, sourceId: null }
         },
-        condomEffectiveness: {
-            value: 0.30,  // 30% reduction
-            sourceId: 'hsv2_condom_effectiveness'
-        },
-        source: 'Corey et al. 2004',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/14676829/',
-        notes: 'Daily antivirals reduce risk by additional 50%. Avoiding outbreaks further reduces risk.'
+        condomEffectiveness: { value: null, sourceId: null },
+        source: 'UNVERIFIED',
+        sourceUrl: '#',
+        notes: 'Data temporarily unavailable - sources being verified.'
     },
     
     hpv: {
         name: 'HPV',
+        verified: false,
+        verificationNote: 'Sources not yet verified - do not use',
         rates: {
-            mtf: {
-                value: 0.10,    // ~10% (conservative per-act estimate)
-                sourceId: 'hpv_transmission_rate'
-            },
-            ftm: {
-                value: 0.10,    // ~10% (symmetric assumption)
-                sourceId: 'hpv_transmission_rate'
-            }
+            mtf: { value: null, sourceId: null },
+            ftm: { value: null, sourceId: null }
         },
-        condomEffectiveness: {
-            value: 0.70,  // 70% reduction
-            sourceId: 'hpv_condom_effectiveness'
-        },
-        source: 'Burchell et al. 2006',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/16847084/',
-        notes: 'Vaccination prevents most dangerous strains. 90% of infections clear within 2 years.'
+        condomEffectiveness: { value: null, sourceId: null },
+        source: 'UNVERIFIED',
+        sourceUrl: '#',
+        notes: 'Data temporarily unavailable - sources being verified.'
     },
     
     chlamydia: {
         name: 'Chlamydia',
+        verified: false,
+        verificationNote: 'Wrong PMID was cited - need to find correct source',
         rates: {
-            mtf: {
-                value: 0.10,   // 10% male-to-female
-                sourceId: 'chlamydia_transmission_rate'
-            },
-            ftm: {
-                value: 0.08,   // 8% female-to-male
-                sourceId: 'chlamydia_transmission_rate'
-            }
+            mtf: { value: null, sourceId: null },
+            ftm: { value: null, sourceId: null }
         },
-        condomEffectiveness: {
-            value: 0.62,  // 62% reduction
-            sourceId: 'chlamydia_condom_effectiveness'
-        },
-        source: 'Price et al. 2013',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/23687129/',
-        notes: 'Easily cured with antibiotics. Often asymptomatic - get tested regularly.'
+        condomEffectiveness: { value: null, sourceId: null },
+        source: 'UNVERIFIED',
+        sourceUrl: '#',
+        notes: 'Data temporarily unavailable - sources being verified.'
     },
     
     gonorrhea: {
         name: 'Gonorrhea',
+        verified: false,
+        verificationNote: 'Sources not yet verified - do not use',
         rates: {
-            mtf: {
-                value: 0.60,    // 60% male-to-female (range 50-70%)
-                sourceId: 'gonorrhea_transmission_rate'
-            },
-            ftm: {
-                value: 0.22,    // 22% female-to-male (range 20-25%)
-                sourceId: 'gonorrhea_modern_estimate'
-            }
+            mtf: { value: null, sourceId: null },
+            ftm: { value: null, sourceId: null }
         },
-        condomEffectiveness: {
-            value: 0.60,  // ~60% reduction
-            sourceId: 'condom_general'
-        },
-        source: 'Holmes et al. 1970',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/5308352/',
-        notes: 'Extremely high transmission rate. Antibiotic resistance is increasing concern.'
+        condomEffectiveness: { value: null, sourceId: null },
+        source: 'UNVERIFIED',
+        sourceUrl: '#',
+        notes: 'Data temporarily unavailable - sources being verified.'
     },
     
     syphilis: {
         name: 'Syphilis',
+        verified: false,
+        verificationNote: 'Sources not yet verified - do not use',
         rates: {
-            mtf: {
-                value: 0.30,    // 30% (primary stage with sore)
-                sourceId: 'syphilis_transmission_rate'
-            },
-            ftm: {
-                value: 0.30,    // 30% (symmetric)
-                sourceId: 'syphilis_transmission_rate'
-            }
+            mtf: { value: null, sourceId: null },
+            ftm: { value: null, sourceId: null }
         },
-        condomEffectiveness: {
-            value: 0.50,  // ~50% (sore may not be covered)
-            sourceId: 'condom_general'
-        },
-        source: 'Garnett et al. 1997',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/9218479/',
-        notes: 'Transmission varies dramatically by stage. Highest risk during primary stage (chancre).'
+        condomEffectiveness: { value: null, sourceId: null },
+        source: 'UNVERIFIED',
+        sourceUrl: '#',
+        notes: 'Data temporarily unavailable - sources being verified.'
     }
 };
 
@@ -328,6 +301,13 @@ class RiskCalculator {
         const months = parseInt(this.durationInput.value);
         
         const stiData = STI_DATA[sti];
+        
+        // Check if this STI has verified data
+        if (!stiData.verified || !stiData.rates[direction].value) {
+            this.showUnverifiedMessage(stiData);
+            return;
+        }
+        
         // Handle both old format (number) and new format (object with value)
         const baseRate = typeof stiData.rates[direction] === 'object' 
             ? stiData.rates[direction].value 
@@ -396,6 +376,41 @@ class RiskCalculator {
         if (risk < 0.20) return '#f59e0b';      // Moderate - amber
         if (risk < 0.50) return '#f97316';      // High - orange
         return '#ef4444';                        // Very high - red
+    }
+    
+    showUnverifiedMessage(stiData) {
+        // Clear the chart
+        if (this.chart) {
+            this.chart.destroy();
+            this.chart = null;
+        }
+        
+        // Show unavailable message in chart area
+        const ctx = this.chartCanvas.getContext('2d');
+        ctx.clearRect(0, 0, this.chartCanvas.width, this.chartCanvas.height);
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '16px Outfit, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Data not yet available', this.chartCanvas.width / 2, this.chartCanvas.height / 2 - 20);
+        ctx.font = '13px Outfit, sans-serif';
+        ctx.fillText('Sources being verified', this.chartCanvas.width / 2, this.chartCanvas.height / 2 + 10);
+        
+        // Update rate displays
+        this.perActRate.innerHTML = '<span style="color: #f59e0b;">⚠ Unverified</span>';
+        this.adjustedRate.innerHTML = '<span style="color: #f59e0b;">⚠ Unverified</span>';
+        this.rateSource.textContent = 'Pending verification';
+        this.rateSource.href = '#';
+        
+        // Update result
+        this.resultProbability.textContent = 'N/A';
+        this.resultProbability.style.color = '#6b7280';
+        this.resultExplanation.innerHTML = `
+            <strong style="color: #f59e0b;">⚠ Data Unavailable</strong><br>
+            The transmission data for ${stiData.name} has not been verified yet. 
+            We only display numbers that have been confirmed against their original sources.
+            <br><br>
+            <em>Reason: ${stiData.verificationNote || 'Sources pending verification'}</em>
+        `;
     }
     
     generateExplanation(stiData, perActRisk, encounters, totalRisk, useCondom, months) {
