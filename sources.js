@@ -938,6 +938,26 @@ const SOURCES = {
         }
     },
     
+    // Trichomoniasis testing and window period
+    trich_ashm_testing: {
+        id: 'trich_ashm_testing',
+        name: 'ASHM Contact Tracing - Trichomoniasis Testing',
+        url: 'https://contacttracing.ashm.org.au/trichomoniasis/',
+        quote: 'Incubation period ... There is insufficient data to provide a definitive period ... Nucleic acid amplification tests (NAATs) are the most sensitive tests available to detect Trichomonas vaginalis',
+        verifiedDate: '2025-01-14',
+        type: 'guideline',
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'window_period', value: 'Insufficient data', source: 'quote', highlight: 'insufficient data to provide a definitive period' },
+                { name: 'test_type', value: 'NAAT', source: 'quote', highlight: 'Nucleic acid amplification tests' }
+            ],
+            steps: ['No established window period for trichomoniasis testing'],
+            result: { name: 'testing_guidance', value: 'NAAT testing; no defined window period' },
+            warnings: ['Window period not established in medical literature']
+        }
+    },
+    
     // ===========================================
     // HEPATITIS C SOURCES - VERIFIED ✓
     // ===========================================
