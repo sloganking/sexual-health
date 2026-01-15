@@ -938,6 +938,27 @@ const SOURCES = {
         }
     },
     
+    // Trichomoniasis condom effectiveness
+    trich_condom_effectiveness: {
+        id: 'trich_condom_effectiveness',
+        name: 'PMC Review - Condom Effectiveness for Trichomoniasis',
+        url: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC4660551/',
+        quote: 'It is claimed to provide more than 90% protection against Trichomonas vaginitis, but the latest reports are controversial. Statistically significant reduction in trichomonas infection (30%) was reported with condom use.',
+        verifiedDate: '2025-01-14',
+        type: 'review',
+        manuallyVerified: true,
+        isDerived: false,
+        derivation: {
+            variables: [
+                { name: 'claimed_protection', value: '>90%', source: 'quote', highlight: 'more than 90% protection' },
+                { name: 'observed_reduction', value: '30%', source: 'quote', highlight: '30%' }
+            ],
+            steps: ['Early claims suggested >90% protection, but newer studies show only ~30% reduction'],
+            result: { name: 'condom_effectiveness', value: '30% reduction (controversial)' },
+            warnings: ['Condom effectiveness for trichomoniasis is controversial', 'Studies show widely varying results (30% to >90%)']
+        }
+    },
+    
     // Trichomoniasis testing and window period
     trich_ashm_testing: {
         id: 'trich_ashm_testing',
