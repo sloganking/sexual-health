@@ -1290,9 +1290,13 @@ mjx-container {
 }
 
 .cite-tooltip-link {
+    display: block;
     font-size: 0.75rem;
     color: var(--accent-primary);
     word-break: break-all;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-subtle);
 }
 
 .cite-tooltip-link:hover {
@@ -1303,6 +1307,44 @@ mjx-container {
     font-size: 0.7rem;
     color: var(--text-muted);
     margin-top: 0.5rem;
+}
+
+/* Derivation block for calculated numbers */
+.cite-tooltip-derivation {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    margin-top: 0.5rem;
+    font-family: var(--font-mono);
+}
+
+.cite-tooltip-derivation-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    display: block;
+    font-family: var(--font-display);
+}
+
+.cite-tooltip-type {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    margin-left: 0.5rem;
+}
+
+.cite-tooltip-type.direct {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.cite-tooltip-type.derived {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
 }
 
 /* Adjust tooltip position for elements near edges */

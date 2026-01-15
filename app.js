@@ -35,12 +35,12 @@ const STI_DATA = {
         name: 'Herpes (HSV-2)',
         rates: {
             mtf: {
-                value: 0.001,   // ~0.1% per act (derived from ~10% annual / ~100 acts)
-                sourceId: 'hsv2_transmission_annual'
+                value: 0.0005,   // ~0.05% per act (derived from 5% annual / ~100 acts)
+                sourceId: 'hsv2_per_act_derived'
             },
             ftm: {
-                value: 0.0004,  // ~0.04% per act (derived from ~4% annual / ~100 acts)
-                sourceId: 'hsv2_transmission_annual'
+                value: 0.0002,  // ~0.02% per act (derived from 1.9% annual / ~100 acts)
+                sourceId: 'hsv2_per_act_derived'
             }
         },
         condomEffectiveness: {
@@ -155,14 +155,32 @@ function createCitableNumber(displayText, sourceId) {
     
     const source = window.SOURCES[sourceId];
     const escapedQuote = source.quote.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const verifiedDate = source.verifiedDate || source.accessDate || 'Unknown';
+    const isDerived = source.isDerived || false;
+    const typeLabel = isDerived ? 'derived' : 'direct';
+    const typeDisplay = isDerived ? 'Calculated' : 'Direct quote';
+    
+    let derivationHtml = '';
+    if (isDerived && source.derivation) {
+        const escapedDerivation = source.derivation.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        derivationHtml = `
+            <div class="cite-tooltip-derivation">
+                <span class="cite-tooltip-derivation-label">How we calculated this:</span>
+                ${escapedDerivation.replace(/\n/g, '<br>')}
+            </div>`;
+    }
     
     return `<span class="citable" data-source="${sourceId}">
         ${displayText}
         <span class="cite-tooltip">
-            <span class="cite-tooltip-source">${source.name}</span>
+            <span class="cite-tooltip-source">
+                ${source.name}
+                <span class="cite-tooltip-type ${typeLabel}">${typeDisplay}</span>
+            </span>
             <span class="cite-tooltip-quote">"${escapedQuote}"</span>
-            <a href="${source.url}" target="_blank" class="cite-tooltip-link">${source.url}</a>
-            <span class="cite-tooltip-meta">Accessed: ${source.accessDate} · Type: ${source.type}</span>
+            ${derivationHtml}
+            <a href="${source.url}" target="_blank" class="cite-tooltip-link">View source →</a>
+            <span class="cite-tooltip-meta">Last verified: ${verifiedDate}</span>
         </span>
     </span>`;
 }
@@ -325,6 +343,9 @@ class RiskCalculator {
         const rateSourceId = typeof stiData.rates[direction] === 'object' 
             ? stiData.rates[direction].sourceId 
             : null;
+        const condomSourceId = typeof stiData.condomEffectiveness === 'object'
+            ? stiData.condomEffectiveness.sourceId
+            : null;
         
         if (rateSourceId && window.SOURCES && window.SOURCES[rateSourceId]) {
             this.perActRate.innerHTML = createCitableNumber(
@@ -335,7 +356,16 @@ class RiskCalculator {
             this.perActRate.textContent = `${(baseRate * 100).toFixed(3)}%`;
         }
         
-        this.adjustedRate.textContent = `${(adjustedRateValue * 100).toFixed(3)}%`;
+        // Show adjusted rate with condom source if applicable
+        if (useCondom && condomSourceId && window.SOURCES && window.SOURCES[condomSourceId]) {
+            this.adjustedRate.innerHTML = createCitableNumber(
+                `${(adjustedRateValue * 100).toFixed(3)}%`,
+                condomSourceId
+            );
+        } else {
+            this.adjustedRate.textContent = `${(adjustedRateValue * 100).toFixed(3)}%`;
+        }
+        
         this.rateSource.textContent = stiData.source;
         this.rateSource.href = stiData.sourceUrl;
         

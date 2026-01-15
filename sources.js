@@ -1,10 +1,16 @@
 /**
  * SOURCE DATABASE
+ * 
  * Every number on this site must have a source with:
  * - url: Link to the source
  * - quote: Exact text from the source that supports the number
- * - accessDate: When we last verified this
+ * - verifiedDate: When we last ran the test suite and verified this quote exists
  * - type: 'webpage' | 'pdf' | 'abstract' (affects testability)
+ * - isDerived: true if we calculated this from source data (not a direct quote)
+ * - derivation: (if isDerived) explanation of how we got the number from the source
+ * 
+ * IMPORTANT: Run `node test-sources.js` periodically to verify links still work
+ * and quotes still exist on the pages.
  */
 
 const SOURCES = {
@@ -51,9 +57,26 @@ const SOURCES = {
         name: 'Corey et al. 2004 - NEJM',
         url: 'https://pubmed.ncbi.nlm.nih.gov/14676829/',
         quote: 'The overall rate of transmission of HSV-2 was 3.6 percent per year among all susceptible partners, with rates of 1.9 percent among men and 5.0 percent among women',
-        accessDate: '2025-01-14',
+        verifiedDate: '2025-01-14',
         type: 'abstract',
         notes: 'Valacyclovir trial - placebo group transmission rates'
+    },
+    
+    hsv2_per_act_derived: {
+        id: 'hsv2_per_act_derived',
+        name: 'Derived from Corey et al. 2004',
+        url: 'https://pubmed.ncbi.nlm.nih.gov/14676829/',
+        quote: 'rates of 1.9 percent among men and 5.0 percent among women [per year]',
+        verifiedDate: '2025-01-14',
+        type: 'abstract',
+        isDerived: true,
+        derivation: `Per-act rate derived from annual rate:
+• Source: 5.0% annual risk (female acquiring from male)
+• Assumption: ~100 sex acts per year (2x/week)
+• Formula: per_act = 1 - (1 - annual)^(1/acts)
+• Calculation: 1 - (1 - 0.05)^(1/100) = 0.0005 = 0.05%
+Note: This is an estimate. Actual per-act risk varies with viral shedding.`,
+        notes: 'DERIVED NUMBER - not directly quoted'
     },
     
     hsv2_valacyclovir_reduction: {
