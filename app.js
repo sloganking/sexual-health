@@ -58,10 +58,13 @@ const STI_DATA = {
             }
         },
         condomEffectiveness: { 
-            value: 0.805,  // Average of 96% M→F and 65% F→M
+            // Direction-specific effectiveness from PMC4725379
+            mtf: { value: 0.96, sourceId: 'hsv2_condom_effectiveness' },  // 96% effective M→F
+            ftm: { value: 0.65, sourceId: 'hsv2_condom_effectiveness' },  // 65% effective F→M
+            value: 0.805,  // Fallback average
             sourceId: 'hsv2_condom_effectiveness',
             isUnverified: false,
-            note: '96% M→F, 65% F→M (using 80.5% average)'
+            note: '96% effective M→F, 65% effective F→M'
         },
         source: 'Corey et al. 2004 - NEJM (derived)',
         sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/14702423/',
@@ -415,6 +418,7 @@ class RiskCalculator {
         this.durationValue = document.getElementById('duration-value');
         this.perActRate = document.getElementById('per-act-rate');
         this.adjustedRate = document.getElementById('adjusted-rate');
+        this.rateReduction = document.getElementById('rate-reduction');
         this.rateSource = document.getElementById('rate-source');
         this.resultDuration = document.getElementById('result-duration');
         this.resultProbability = document.getElementById('result-probability');
@@ -469,9 +473,23 @@ class RiskCalculator {
         const baseRate = typeof stiData.rates[direction] === 'object' 
             ? stiData.rates[direction].value 
             : stiData.rates[direction];
-        const condomEff = typeof stiData.condomEffectiveness === 'object'
-            ? stiData.condomEffectiveness.value
-            : stiData.condomEffectiveness;
+        
+        // Get direction-specific condom effectiveness if available
+        let condomEff;
+        let condomSourceId;
+        const condomData = stiData.condomEffectiveness;
+        if (typeof condomData === 'object' && condomData[direction] && condomData[direction].value !== undefined) {
+            // Direction-specific effectiveness (e.g., HSV-2: 96% M→F, 65% F→M)
+            condomEff = condomData[direction].value;
+            condomSourceId = condomData[direction].sourceId;
+        } else if (typeof condomData === 'object') {
+            condomEff = condomData.value;
+            condomSourceId = condomData.sourceId;
+        } else {
+            condomEff = condomData;
+            condomSourceId = null;
+        }
+        
         const adjustedRateValue = useCondom 
             ? adjustForCondom(baseRate, condomEff) 
             : baseRate;
@@ -480,9 +498,7 @@ class RiskCalculator {
         const rateSourceId = typeof stiData.rates[direction] === 'object' 
             ? stiData.rates[direction].sourceId 
             : null;
-        const condomSourceId = typeof stiData.condomEffectiveness === 'object'
-            ? stiData.condomEffectiveness.sourceId
-            : null;
+        // condomSourceId already defined above with direction-specific logic
         
         if (rateSourceId && window.SOURCES && window.SOURCES[rateSourceId]) {
             this.perActRate.innerHTML = createCitableNumber(
@@ -493,31 +509,38 @@ class RiskCalculator {
             this.perActRate.textContent = `${(baseRate * 100).toFixed(3)}%`;
         }
         
-        // Show adjusted rate with condom source if applicable
-        const condomData = typeof stiData.condomEffectiveness === 'object' ? stiData.condomEffectiveness : null;
-        const isCondomUnverified = condomData && condomData.isUnverified;
+        // Always calculate and display with-condom rate for comparison
+        // condomData already defined above
+        const isCondomUnverified = typeof condomData === 'object' && condomData.isUnverified;
+        const withCondomRate = adjustForCondom(baseRate, condomEff);
         
-        if (useCondom) {
-            if (condomSourceId && window.SOURCES && window.SOURCES[condomSourceId]) {
-                this.adjustedRate.innerHTML = createCitableNumber(
-                    `${(adjustedRateValue * 100).toFixed(3)}%`,
-                    condomSourceId
-                );
-            } else if (isCondomUnverified) {
-                // Show unverified warning
-                this.adjustedRate.innerHTML = `<span class="citable-unverified" title="${condomData.note || 'Condom effectiveness not verified'}">${(adjustedRateValue * 100).toFixed(3)}% ⚠️</span>`;
-            } else {
-                this.adjustedRate.textContent = `${(adjustedRateValue * 100).toFixed(3)}%`;
-            }
+        // Show the with-condom rate
+        if (condomSourceId && window.SOURCES && window.SOURCES[condomSourceId]) {
+            this.adjustedRate.innerHTML = createCitableNumber(
+                `${(withCondomRate * 100).toFixed(3)}%`,
+                condomSourceId
+            );
+        } else if (isCondomUnverified) {
+            // Show unverified warning
+            this.adjustedRate.innerHTML = `<span class="citable-unverified" title="${typeof condomData === 'object' && condomData.note ? condomData.note : 'Condom effectiveness not verified'}">${(withCondomRate * 100).toFixed(3)}% ⚠️</span>`;
         } else {
-            this.adjustedRate.textContent = `${(adjustedRateValue * 100).toFixed(3)}%`;
+            this.adjustedRate.textContent = `${(withCondomRate * 100).toFixed(3)}%`;
+        }
+        
+        // Show the reduction percentage
+        const reductionPercent = (condomEff * 100).toFixed(0);
+        if (isCondomUnverified) {
+            this.rateReduction.innerHTML = `<span class="unverified">(${reductionPercent}% reduction ⚠️)</span>`;
+        } else {
+            this.rateReduction.textContent = `(${reductionPercent}% reduction)`;
         }
         
         this.rateSource.textContent = stiData.source;
         this.rateSource.href = stiData.sourceUrl;
         
-        // Generate timeline data
-        const timeline = generateRiskTimeline(adjustedRateValue, frequency, months);
+        // Generate timeline data using the rate based on user's protection choice
+        const rateForTimeline = useCondom ? withCondomRate : baseRate;
+        const timeline = generateRiskTimeline(rateForTimeline, frequency, months);
         
         // Update chart
         this.updateChart(timeline, stiData.name, useCondom);
@@ -534,7 +557,7 @@ class RiskCalculator {
         
         // Generate explanation
         this.resultExplanation.innerHTML = this.generateExplanation(
-            stiData, adjustedRateValue, totalEncounters, finalRisk, useCondom, months
+            stiData, rateForTimeline, totalEncounters, finalRisk, useCondom, months
         );
     }
     
@@ -565,6 +588,7 @@ class RiskCalculator {
         // Update rate displays
         this.perActRate.innerHTML = '<span style="color: #f59e0b;">⚠ Unverified</span>';
         this.adjustedRate.innerHTML = '<span style="color: #f59e0b;">⚠ Unverified</span>';
+        this.rateReduction.textContent = '';
         this.rateSource.textContent = 'Pending verification';
         this.rateSource.href = '#';
         
