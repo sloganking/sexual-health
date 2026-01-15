@@ -1111,6 +1111,71 @@ input[type="range"]::-moz-range-thumb {
     line-height: 1.6;
 }
 
+/* Testing Guide Section */
+.testing-section {
+    background: var(--bg-secondary);
+}
+
+.testing-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.testing-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 2rem;
+}
+
+.testing-block h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.testing-intro {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.testing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.testing-table th,
+.testing-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.testing-table th {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.testing-table td {
+    color: var(--text-secondary);
+}
+
+.testing-table td:first-child {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.testing-table tbody tr:hover {
+    background: var(--bg-tertiary);
+}
+
 /* Methodology Section */
 .methodology-section {
     background: var(--bg-primary);
