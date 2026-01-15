@@ -39,8 +39,8 @@ This is the #1 rule for this project and MUST NEVER be broken:
 
 - Every variable in `derivation.variables` MUST be used in `derivation.steps` or `derivation.result`
 - If a variable is extracted from the quote but not used in the calculation, REMOVE IT
-- The quote should only contain text needed to derive the result
-- Confidence intervals, ranges, and other context should be removed unless used in calculation
+- Quotes MUST include enough context to be understandable on their own, even if that context is not used in the calculation
+- Extra context is OK if it clarifies meaning; avoid unrelated content
 
 ### Running Verification:
 
@@ -61,4 +61,4 @@ All quotes must pass verification. If a quote fails, it's WRONG.
 - [ ] `node test-sources.js` passes
 - [ ] Per-partnership rates are NOT used as per-act rates
 - [ ] NO unused variables - every variable must be used in steps/result
-- [ ] Quote contains ONLY text needed for derivation (no extra context)
+- [ ] Quote includes enough context for a human to understand the number
