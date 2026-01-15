@@ -75,25 +75,12 @@ const SOURCES = {
                     value: '0.08%',
                     source: 'quote',
                     highlight: '0.08% per act'
-                },
-                {
-                    name: 'confidence_interval_ftm',
-                    value: '95% CI 0.01-0.14%',
-                    source: 'quote',
-                    highlight: '95% CI 0.01-0.14'
-                },
-                {
-                    name: 'confidence_interval_mtf',
-                    value: '95% CI 0.06-0.11%',
-                    source: 'quote',
-                    highlight: '95% CI 0.06-0.11'
                 }
             ],
             steps: [
                 'From quote: per_act_ftm = 0.04% (female-to-male)',
                 'From quote: per_act_mtf = 0.08% (male-to-female)',
-                'Note: These are high-income country estimates',
-                'Note: Meta-analysis of 25 studies'
+                'Note: These are high-income country estimates'
             ],
             result: {
                 name: 'per_act_transmission_rate',
@@ -175,12 +162,6 @@ const SOURCES = {
                     value: '1.9%',
                     source: 'quote',
                     highlight: '1.9 percent'
-                },
-                {
-                    name: 'placebo_count',
-                    value: '27 of 741',
-                    source: 'quote',
-                    highlight: '27'
                 }
             ],
             steps: [
@@ -389,12 +370,6 @@ const SOURCES = {
         derivation: {
             variables: [
                 {
-                    name: 'gonorrhea_per_partnership',
-                    value: '62.5%',
-                    source: 'quote',
-                    highlight: '62.5%'
-                },
-                {
                     name: 'per_act_range',
                     value: '6% to 16.7%',
                     source: 'quote',
@@ -457,18 +432,6 @@ const SOURCES = {
                     value: '7.3 per 1000 person-months',
                     source: 'quote',
                     highlight: '7.3'
-                },
-                {
-                    name: 'ftm_ci',
-                    value: '95% CI: 7.1-19.6',
-                    source: 'quote',
-                    highlight: '7.1-19.6'
-                },
-                {
-                    name: 'mtf_ci',
-                    value: '95% CI: 3.5-13.5',
-                    source: 'quote',
-                    highlight: '3.5-13.5'
                 }
             ],
             steps: [
@@ -506,18 +469,6 @@ const SOURCES = {
                     value: '91.3%',
                     source: 'quote',
                     highlight: '91.3%'
-                },
-                {
-                    name: 'range_women',
-                    value: '53.6%-95.0%',
-                    source: 'quote',
-                    highlight: '53.6%-95.0%'
-                },
-                {
-                    name: 'range_men',
-                    value: '69.5%-97.7%',
-                    source: 'quote',
-                    highlight: '69.5%-97.7%'
                 }
             ],
             steps: [
