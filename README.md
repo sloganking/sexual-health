@@ -4,7 +4,7 @@
 
 An evidence-based, fully transparent STI transmission risk calculator. Every number is sourced, every calculation is shown, every quote is verifiable.
 
-🌐 **Live Site:** [https://sloganking.github.io/sexual-health/](https://sloganking.github.io/sexual-health/)
+🌐 **Live Site:** [https://sloganking.github.io/know-your-numbers/](https://sloganking.github.io/know-your-numbers/)
 
 ---
 
