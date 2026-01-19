@@ -942,6 +942,13 @@ function initMobileTooltips() {
     let activeTooltip = null;
     
     document.addEventListener('click', (e) => {
+        // If clicking on a link inside the tooltip, let it through!
+        const clickedLink = e.target.closest('a.cite-tooltip-link');
+        if (clickedLink) {
+            // Allow the link to work - don't prevent default
+            return;
+        }
+        
         const citable = e.target.closest('.citable, .citable-unverified');
         
         if (citable) {

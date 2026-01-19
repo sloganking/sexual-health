@@ -1574,9 +1574,9 @@ mjx-container {
     font-size: 0.8rem;
     color: var(--text-secondary);
     font-style: italic;
-    line-height: 1.5;
+    line-height: 1.8;
     margin-bottom: 0.75rem;
-    padding: 0.5rem;
+    padding: 0.75rem;
     background: var(--bg-secondary);
     border-left: 2px solid var(--accent-primary);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
@@ -1592,12 +1592,21 @@ mjx-container {
     color: var(--accent-primary);
     word-break: break-all;
     margin-top: 0.5rem;
-    padding-top: 0.5rem;
+    padding: 0.75rem;
     border-top: 1px solid var(--border-subtle);
+    background: var(--bg-primary);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    /* Ensure clickable on touch devices */
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3);
+    touch-action: manipulation;
 }
 
-.cite-tooltip-link:hover {
+.cite-tooltip-link:hover,
+.cite-tooltip-link:active {
     text-decoration: underline;
+    background: var(--bg-tertiary);
 }
 
 .cite-tooltip-meta {
@@ -2199,11 +2208,13 @@ mjx-container {
         position: relative;
     }
     
-    /* Smaller tooltip quote text */
+    /* Smaller tooltip quote text with proper line spacing */
     .cite-tooltip-quote {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        line-height: 1.9;
+        padding: 0.75rem;
     }
     
     .derive-var {
