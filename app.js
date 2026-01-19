@@ -864,8 +864,105 @@ function initSmoothScrolling() {
                     top: targetPosition,
                     behavior: 'smooth'
                 });
+                
+                // Close mobile menu if open
+                closeMobileMenu();
             }
         });
+    });
+}
+
+// ============================================
+// MOBILE NAVIGATION
+// ============================================
+
+function initMobileNav() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (!navToggle || !navLinks) return;
+    
+    navToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.contains('active');
+        
+        if (isOpen) {
+            closeMobileMenu();
+        } else {
+            openMobileMenu();
+        }
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.nav')) {
+            closeMobileMenu();
+        }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeMobileMenu();
+        }
+    });
+}
+
+function openMobileMenu() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (navToggle && navLinks) {
+        navToggle.classList.add('active');
+        navToggle.setAttribute('aria-expanded', 'true');
+        navLinks.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scroll when menu open
+    }
+}
+
+function closeMobileMenu() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (navToggle && navLinks) {
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navLinks.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+// ============================================
+// MOBILE TOOLTIP HANDLING
+// ============================================
+
+function initMobileTooltips() {
+    // On touch devices, toggle tooltips on tap instead of hover
+    if (!('ontouchstart' in window)) return;
+    
+    let activeTooltip = null;
+    
+    document.addEventListener('click', (e) => {
+        const citable = e.target.closest('.citable, .citable-unverified');
+        
+        if (citable) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Close any other open tooltip
+            if (activeTooltip && activeTooltip !== citable) {
+                activeTooltip.classList.remove('tooltip-active');
+            }
+            
+            // Toggle this tooltip
+            citable.classList.toggle('tooltip-active');
+            activeTooltip = citable.classList.contains('tooltip-active') ? citable : null;
+        } else {
+            // Clicked outside - close any open tooltip
+            if (activeTooltip) {
+                activeTooltip.classList.remove('tooltip-active');
+                activeTooltip = null;
+            }
+        }
     });
 }
 
@@ -879,6 +976,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize smooth scrolling
     initSmoothScrolling();
+    
+    // Initialize mobile navigation
+    initMobileNav();
+    
+    // Initialize mobile tooltips
+    initMobileTooltips();
     
     // Log data sources for transparency
     console.log('📊 Know Your Numbers - STI Risk Calculator');

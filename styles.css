@@ -163,9 +163,70 @@ a:hover {
     text-decoration: none;
 }
 
+/* Mobile Navigation Toggle */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 102;
+}
+
+.nav-toggle-bar {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 1px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-toggle.active .nav-toggle-bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle.active .nav-toggle-bar:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active .nav-toggle-bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
+    .nav-toggle {
+        display: flex;
+    }
+    
     .nav-links {
         display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 11, 13, 0.98);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        z-index: 101;
+        padding: 2rem;
+    }
+    
+    .nav-links.active {
+        display: flex;
+    }
+    
+    .nav-links a {
+        font-size: 1.25rem;
+        padding: 0.75rem 1rem;
     }
 }
 
@@ -1397,6 +1458,7 @@ mjx-container {
     left: 50%;
     transform: translateX(-50%);
     width: 380px;
+    max-width: calc(100vw - 2rem);
     max-height: 450px;
     overflow-y: auto;
     padding: 1rem;
@@ -1412,6 +1474,27 @@ mjx-container {
     pointer-events: none;
 }
 
+/* Mobile tooltip adjustments */
+@media (max-width: 480px) {
+    .cite-tooltip {
+        position: fixed;
+        bottom: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100vw - 2rem);
+        max-height: 70vh;
+    }
+    
+    .cite-tooltip::after {
+        display: none;
+    }
+    
+    .cite-tooltip::before {
+        display: none;
+    }
+}
+
 /* Invisible extension at bottom of tooltip to bridge to trigger element */
 .cite-tooltip::before {
     content: '';
@@ -1424,7 +1507,8 @@ mjx-container {
     pointer-events: auto;
 }
 
-.citable:hover .cite-tooltip {
+.citable:hover .cite-tooltip,
+.citable.tooltip-active .cite-tooltip {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -1572,11 +1656,26 @@ mjx-container {
     transition: opacity 0.2s, visibility 0.2s;
     z-index: 100;
     color: var(--text-secondary);
+    max-width: calc(100vw - 2rem);
 }
 
-.citable-unverified:hover .unverified-tooltip {
+.citable-unverified:hover .unverified-tooltip,
+.citable-unverified.tooltip-active .unverified-tooltip {
     opacity: 1;
     visibility: visible;
+}
+
+@media (max-width: 480px) {
+    .citable-unverified .unverified-tooltip {
+        position: fixed;
+        bottom: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: normal;
+        text-align: center;
+        width: calc(100vw - 3rem);
+    }
 }
 
 /* Step-by-step derivation display */
@@ -1746,4 +1845,309 @@ mjx-container {
 ::selection {
     background: rgba(245, 158, 11, 0.3);
     color: var(--text-primary);
+}
+
+/* ===========================================
+   MOBILE OPTIMIZATIONS
+   =========================================== */
+
+/* Mobile Navigation - Add hamburger menu functionality via CSS */
+@media (max-width: 768px) {
+    .nav {
+        padding: 0.75rem 1rem;
+    }
+    
+    .nav-brand {
+        gap: 0.5rem;
+    }
+    
+    .nav-icon {
+        font-size: 1.25rem;
+    }
+    
+    .nav-title {
+        font-size: 1rem;
+    }
+    
+    /* Hero adjustments */
+    .hero {
+        padding: calc(var(--section-padding) + 50px) 1rem var(--section-padding);
+        min-height: auto;
+    }
+    
+    .hero-title {
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Section padding */
+    .section {
+        padding: clamp(2.5rem, 8vw, 4rem) 0;
+    }
+    
+    .section-header {
+        margin-bottom: 2rem;
+    }
+    
+    .section-header h2 {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+    
+    /* Mission section */
+    .mission-text .lead {
+        font-size: 1.1rem;
+    }
+    
+    .mission-text p {
+        font-size: 0.95rem;
+    }
+    
+    .mission-principles {
+        padding: 1.25rem;
+    }
+    
+    /* Calculator section */
+    .calculator-inputs {
+        padding: 1.25rem;
+    }
+    
+    .input-group {
+        margin-bottom: 1.25rem;
+    }
+    
+    .chart-container {
+        padding: 1rem;
+        min-height: 280px;
+    }
+    
+    .result-summary {
+        padding: 1rem;
+    }
+    
+    .result-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .result-value {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+    
+    .risk-arrow {
+        transform: rotate(90deg);
+    }
+    
+    /* Rate display */
+    .current-rate-display {
+        padding: 1rem;
+    }
+    
+    /* STI cards */
+    .sti-card {
+        padding: 1.25rem;
+    }
+    
+    .sti-header h3 {
+        font-size: 1.25rem;
+    }
+    
+    /* Tables - make responsive */
+    .rates-table,
+    .testing-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -0.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .rates-table th,
+    .rates-table td,
+    .testing-table th,
+    .testing-table td {
+        padding: 0.5rem 0.4rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    
+    .testing-block {
+        padding: 1.25rem;
+    }
+    
+    .testing-block h3 {
+        font-size: 1.1rem;
+    }
+    
+    /* Classification legend */
+    .classification-legend {
+        padding: 1.25rem;
+    }
+    
+    .legend-intro {
+        font-size: 0.9rem;
+    }
+    
+    /* STI details */
+    .sti-details summary {
+        font-size: 0.85rem;
+    }
+    
+    .details-content p {
+        font-size: 0.85rem;
+    }
+    
+    .info-callout {
+        padding: 0.875rem 1rem;
+    }
+    
+    .info-callout h5 {
+        font-size: 0.85rem;
+    }
+    
+    .info-callout p {
+        font-size: 0.8rem;
+    }
+    
+    /* Methodology section */
+    .method-block > p {
+        font-size: 0.95rem;
+    }
+    
+    .math-block {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .code-block {
+        padding: 0.75rem;
+    }
+    
+    .code-block code {
+        font-size: 0.75rem;
+    }
+    
+    .caveat {
+        padding: 1rem;
+    }
+    
+    .caveat h4 {
+        font-size: 0.9rem;
+    }
+    
+    .caveat p {
+        font-size: 0.8rem;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 2.5rem 0 1.5rem;
+    }
+    
+    .footer-content {
+        gap: 1.5rem;
+    }
+    
+    .footer-main h3 {
+        font-size: 1.1rem;
+    }
+    
+    .footer-main p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        padding: 0.75rem 1.25rem;
+        font-size: 0.9rem;
+    }
+    
+    .stat-card {
+        padding: 1rem 1.25rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.9rem;
+    }
+    
+    /* Make tables scroll horizontally with visual indicator */
+    .rates-table,
+    .testing-table {
+        position: relative;
+    }
+    
+    /* Smaller tooltip quote text */
+    .cite-tooltip-quote {
+        font-size: 0.75rem;
+    }
+    
+    .derive-var {
+        font-size: 0.7rem;
+    }
+    
+    .derive-step {
+        font-size: 0.65rem;
+    }
+}
+
+/* Touch-friendly targets */
+@media (hover: none) and (pointer: coarse) {
+    .btn {
+        min-height: 44px;
+    }
+    
+    .nav-links a {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .sti-details summary {
+        padding: 0.75rem 0;
+    }
+    
+    /* On touch devices, make citable elements tap-to-open */
+    .citable {
+        cursor: pointer;
+    }
 }
