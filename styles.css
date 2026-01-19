@@ -1501,20 +1501,18 @@ mjx-container {
         display: none;
     }
     
-    /* Force text wrapping in all tooltip content */
-    .cite-tooltip * {
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-        max-width: 100%;
-    }
-    
+    /* Force text wrapping in tooltip content - be specific to avoid inheritance issues */
     .cite-tooltip-source,
     .cite-tooltip-quote,
     .cite-tooltip-link,
-    .cite-tooltip-meta {
+    .cite-tooltip-meta,
+    .cite-tooltip-derivation,
+    .cite-tooltip-warning {
         white-space: normal;
         word-break: break-word;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
     }
     
     /* Hide tooltips completely when not active - prevent overflow */
@@ -1571,10 +1569,11 @@ mjx-container {
 }
 
 .cite-tooltip-quote {
+    display: block;
     font-size: 0.8rem;
     color: var(--text-secondary);
     font-style: italic;
-    line-height: 1.8;
+    line-height: 2;
     margin-bottom: 0.75rem;
     padding: 0.75rem;
     background: var(--bg-secondary);
@@ -1663,11 +1662,16 @@ mjx-container {
 .quote-highlight {
     background: rgba(245, 158, 11, 0.25);
     color: var(--accent-secondary);
-    padding: 0.1rem 0.2rem;
+    padding: 0.15rem 0.25rem;
     border-radius: 2px;
     cursor: help;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    /* Ensure highlights don't cause vertical overlap */
+    display: inline;
+    line-height: inherit;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
 
 /* Unverified number styling */
@@ -2210,11 +2214,12 @@ mjx-container {
     
     /* Smaller tooltip quote text with proper line spacing */
     .cite-tooltip-quote {
-        font-size: 0.85rem;
+        display: block;
+        font-size: 0.9rem;
         word-wrap: break-word;
         overflow-wrap: break-word;
-        line-height: 1.9;
-        padding: 0.75rem;
+        line-height: 2.2;
+        padding: 1rem;
     }
     
     .derive-var {
