@@ -1488,6 +1488,9 @@ mjx-container {
         width: calc(100vw - 2rem);
         max-width: calc(100vw - 2rem);
         max-height: 70vh;
+        /* Force all content to wrap */
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     
     .cite-tooltip::after {
@@ -1496,6 +1499,22 @@ mjx-container {
     
     .cite-tooltip::before {
         display: none;
+    }
+    
+    /* Force text wrapping in all tooltip content */
+    .cite-tooltip * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        max-width: 100%;
+    }
+    
+    .cite-tooltip-source,
+    .cite-tooltip-quote,
+    .cite-tooltip-link,
+    .cite-tooltip-meta {
+        white-space: normal;
+        word-break: break-word;
     }
     
     /* Hide tooltips completely when not active - prevent overflow */
@@ -1561,6 +1580,10 @@ mjx-container {
     background: var(--bg-secondary);
     border-left: 2px solid var(--accent-primary);
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    /* Force text wrapping */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .cite-tooltip-link {
@@ -1625,6 +1648,7 @@ mjx-container {
 .quote-ellipsis {
     color: var(--text-muted);
     padding: 0 0.25rem;
+    white-space: normal;
 }
 
 .quote-highlight {
@@ -1633,6 +1657,8 @@ mjx-container {
     padding: 0.1rem 0.2rem;
     border-radius: 2px;
     cursor: help;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Unverified number styling */
@@ -2009,14 +2035,14 @@ mjx-container {
         font-size: 1.25rem;
     }
     
-    /* Tables - make responsive */
+    /* Tables - make responsive with proper containment */
     .rates-table,
     .testing-table {
         display: block;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        margin: 0 -0.5rem;
-        padding: 0 0.5rem;
+        margin: 0;
+        max-width: 100%;
     }
     
     .rates-table th,
@@ -2025,15 +2051,41 @@ mjx-container {
     .testing-table td {
         padding: 0.5rem 0.4rem;
         font-size: 0.75rem;
+        /* Allow text to wrap in table cells on mobile */
+        white-space: normal;
+        min-width: 60px;
+    }
+    
+    /* Keep first column (STI name) from wrapping */
+    .testing-table td:first-child,
+    .rates-table td:first-child {
         white-space: nowrap;
     }
     
     .testing-block {
         padding: 1.25rem;
+        overflow-x: hidden;
     }
     
     .testing-block h3 {
         font-size: 1.1rem;
+    }
+    
+    /* Ensure citable elements in tables don't cause overflow */
+    .testing-table .citable,
+    .rates-table .citable {
+        display: inline;
+        word-break: break-word;
+    }
+    
+    /* Tooltips within tables should use fixed positioning */
+    .testing-table .cite-tooltip,
+    .rates-table .cite-tooltip {
+        position: fixed;
+        max-width: calc(100vw - 2rem);
+        width: calc(100vw - 2rem);
+        left: 50% !important;
+        transform: translate(-50%, -50%);
     }
     
     /* Classification legend */
@@ -2150,14 +2202,29 @@ mjx-container {
     /* Smaller tooltip quote text */
     .cite-tooltip-quote {
         font-size: 0.75rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     .derive-var {
         font-size: 0.7rem;
+        flex-wrap: wrap;
     }
     
     .derive-step {
         font-size: 0.65rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .derive-var-value {
+        word-break: break-word;
+    }
+    
+    .derive-variables,
+    .derive-steps {
+        overflow-x: hidden;
+        max-width: 100%;
     }
 }
 
