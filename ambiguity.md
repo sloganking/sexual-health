@@ -102,4 +102,58 @@ Use this checklist to catch ambiguity before it goes live:
 |------|----------|-------|-----|
 | 2026-01-20 | HSV-2 checkbox | Didn't say who takes valacyclovir | "Infected partner takes daily valacyclovir" |
 | 2026-01-20 | HIV checkbox | "Undetectable viral load" is jargon | "HIV+ partner takes daily medication (virus suppressed)" |
+| 2026-01-20 | Chart labels | shortName "Antivirals" didn't name the drug | Changed to "Valacyclovir" |
+| 2026-01-20 | Chart labels | shortName "U=U" didn't explain what medication | Changed to "ART (U=U)" |
+| 2026-01-20 | HIV PrEP checkbox | Didn't name the actual drug | Added "Truvada or Descovy" to name |
+
+---
+
+### #3: Chart Labels — Generic "Antivirals" Instead of Drug Name
+
+**Date:** 2026-01-20  
+**Location:** Chart legend labels
+
+**Before (ambiguous):**
+```
+Chart shows: "Antivirals Only" line
+```
+
+**Problems:**
+- "Antivirals" is generic — user can't look up what medication this refers to
+- If someone wants to get this medication, they don't know what to ask for
+
+**After (clear):**
+```
+Chart shows: "Valacyclovir Only" line
+```
+
+**Why it's better:**
+- Names the specific drug
+- User can search for "valacyclovir" or ask their doctor about it
+
+---
+
+### #4: PrEP Without Drug Names
+
+**Date:** 2026-01-20  
+**Location:** HIV PrEP checkbox
+
+**Before (ambiguous):**
+```
+💊 Uninfected partner takes daily PrEP medication
+```
+
+**Problems:**
+- "PrEP medication" doesn't tell you what drug to ask for
+- User might not know PrEP is a brand-agnostic term for specific drugs
+
+**After (clear):**
+```
+💊 Uninfected partner takes daily Truvada or Descovy (PrEP)
+```
+
+**Why it's better:**
+- Names the actual drugs (Truvada, Descovy)
+- User can ask their doctor for these by name
+- Still includes "PrEP" for those familiar with the term
 

@@ -38,19 +38,19 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'prep',
-                name: 'Uninfected partner takes daily PrEP medication',
+                name: 'Uninfected partner takes daily Truvada or Descovy (PrEP)',
                 shortName: 'PrEP',
                 value: 0.99,  // ~99% reduction
                 sourceId: 'hiv_prep_effectiveness',
-                note: 'Prescription pill taken daily by the HIV-negative partner to prevent infection'
+                note: 'Prescription pills (Truvada/Descovy) taken daily by the HIV-negative partner'
             },
             {
                 id: 'uu',
-                name: 'HIV+ partner takes daily medication (virus suppressed)',
-                shortName: 'U=U',
+                name: 'HIV+ partner takes daily ART and has suppressed virus',
+                shortName: 'ART (U=U)',
                 value: 1.0,  // 100% reduction (effectively zero transmission)
                 sourceId: 'hiv_viral_suppression',
-                note: 'When HIV medication suppresses the virus to undetectable levels, transmission drops to zero'
+                note: 'Antiretroviral therapy (ART) suppresses virus to undetectable — cannot transmit (U=U)'
             }
         ],
         source: 'CDC HIV Risk and Prevention Estimates',
@@ -92,7 +92,7 @@ const STI_DATA = {
             {
                 id: 'valacyclovir',
                 name: 'Infected partner takes daily valacyclovir',
-                shortName: 'Antivirals',
+                shortName: 'Valacyclovir',
                 value: 0.47,  // ~47% reduction (consistent with Corey study)
                 sourceId: 'hsv2_corey_2004',
                 note: 'Daily suppressive antiviral taken by HSV-2+ partner'
