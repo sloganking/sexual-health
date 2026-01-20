@@ -664,6 +664,18 @@ input[type="range"]::-moz-range-thumb {
     font-weight: 400;
     color: var(--text-muted);
 }
+
+.reduction-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2));
+    color: #06b6d4;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
 /* Current Rate Display */
 .current-rate-display {
     background: var(--bg-tertiary);
