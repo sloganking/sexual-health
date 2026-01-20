@@ -522,8 +522,10 @@ class RiskCalculator {
         const stiData = STI_DATA[sti];
         
         // Show antiviral toggle only for STIs with antiviral data
+        // Check it by default so users see all protection options immediately
         if (stiData && stiData.antiviralEffectiveness) {
             this.antiviralToggleGroup.style.display = 'block';
+            this.antiviralCheckbox.checked = true;  // Default ON to show all lines
         } else {
             this.antiviralToggleGroup.style.display = 'none';
             this.antiviralCheckbox.checked = false;
