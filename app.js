@@ -68,9 +68,14 @@ const STI_DATA = {
             isUnverified: false,
             note: '96% effective M→F, 65% effective F→M'
         },
+        antiviralEffectiveness: {
+            value: 0.47,  // ~47% reduction with daily valacyclovir
+            sourceId: 'hsv2_corey_2004',
+            note: 'Daily suppressive therapy (e.g., valacyclovir) reduces transmission by ~47%'
+        },
         source: 'Magaret et al. 2016 - Clin Infect Dis',
         sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/26578538/',
-        notes: 'Per-act rate 2.85% M→F (direct measurement). Condoms 96% effective M→F, 65% F→M.'
+        notes: 'Per-act rate 2.85% M→F (direct measurement). Condoms 96% effective M→F, 65% F→M. Daily antivirals reduce transmission by ~47%.'
     },
     
     hpv: {
@@ -471,6 +476,10 @@ class RiskCalculator {
         this.frequencyInput = document.getElementById('frequency-input');
         this.durationInput = document.getElementById('duration-input');
         
+        // Antiviral toggle
+        this.antiviralToggleGroup = document.getElementById('antiviral-toggle-group');
+        this.antiviralCheckbox = document.getElementById('antiviral-checkbox');
+        
         // Display elements
         this.frequencyValue = document.getElementById('frequency-value');
         this.durationValue = document.getElementById('duration-value');
@@ -486,8 +495,13 @@ class RiskCalculator {
     }
     
     bindEvents() {
-        this.stiSelect.addEventListener('change', () => this.updateCalculation());
+        this.stiSelect.addEventListener('change', () => {
+            this.updateAntiviralVisibility();
+            this.updateCalculation();
+        });
         this.directionSelect.addEventListener('change', () => this.updateCalculation());
+        
+        this.antiviralCheckbox.addEventListener('change', () => this.updateCalculation());
         
         this.frequencyInput.addEventListener('input', () => {
             this.frequencyValue.textContent = this.getFrequencyLabel(parseInt(this.frequencyInput.value));
@@ -498,6 +512,22 @@ class RiskCalculator {
             this.durationValue.textContent = this.durationInput.value;
             this.updateCalculation();
         });
+        
+        // Initial visibility check
+        this.updateAntiviralVisibility();
+    }
+    
+    updateAntiviralVisibility() {
+        const sti = this.stiSelect.value;
+        const stiData = STI_DATA[sti];
+        
+        // Show antiviral toggle only for STIs with antiviral data
+        if (stiData && stiData.antiviralEffectiveness) {
+            this.antiviralToggleGroup.style.display = 'block';
+        } else {
+            this.antiviralToggleGroup.style.display = 'none';
+            this.antiviralCheckbox.checked = false;
+        }
     }
     
     getFrequencyLabel(value) {
@@ -545,8 +575,19 @@ class RiskCalculator {
             condomSourceId = null;
         }
         
-        // Calculate both rates for dual display
+        // Calculate condom-adjusted rate
         const withCondomRate = adjustForCondom(baseRate, condomEff);
+        
+        // Check for antiviral data
+        const antiviralData = stiData.antiviralEffectiveness;
+        const hasAntiviralData = antiviralData && antiviralData.value !== undefined;
+        const antiviralsEnabled = hasAntiviralData && this.antiviralCheckbox.checked;
+        const antiviralEff = hasAntiviralData ? antiviralData.value : 0;
+        const antiviralSourceId = hasAntiviralData ? antiviralData.sourceId : null;
+        
+        // Calculate antiviral-adjusted rates
+        const withAntiviralRate = antiviralsEnabled ? adjustForCondom(baseRate, antiviralEff) : null;
+        const withBothRate = antiviralsEnabled ? adjustForCondom(withCondomRate, antiviralEff) : null;
         
         // Update rate display with citable sources
         const rateSourceId = typeof stiData.rates[direction] === 'object' 
@@ -586,29 +627,58 @@ class RiskCalculator {
             this.rateReduction.textContent = `(${reductionPercent}% reduction)`;
         }
         
-        // Generate BOTH timelines for dual-line chart
+        // Generate timelines for all scenarios
         const hasVerifiedCondomData = condomSourceId && window.SOURCES && window.SOURCES[condomSourceId];
+        const hasVerifiedAntiviralData = antiviralSourceId && window.SOURCES && window.SOURCES[antiviralSourceId];
+        
         const timelineUnprotected = generateRiskTimeline(baseRate, frequency, months);
-        const timelineProtected = hasVerifiedCondomData 
+        const timelineCondom = hasVerifiedCondomData 
             ? generateRiskTimeline(withCondomRate, frequency, months) 
             : null;
+        const timelineAntiviral = (antiviralsEnabled && hasVerifiedAntiviralData)
+            ? generateRiskTimeline(withAntiviralRate, frequency, months)
+            : null;
+        const timelineBoth = (antiviralsEnabled && hasVerifiedCondomData && hasVerifiedAntiviralData)
+            ? generateRiskTimeline(withBothRate, frequency, months)
+            : null;
         
-        // Update chart with both lines
-        this.updateChart(timelineUnprotected, timelineProtected, stiData.name, hasVerifiedCondomData);
+        // Update chart with all relevant lines
+        this.updateChart({
+            unprotected: timelineUnprotected,
+            condom: timelineCondom,
+            antiviral: timelineAntiviral,
+            both: timelineBoth
+        }, stiData.name, {
+            hasCondomData: hasVerifiedCondomData,
+            hasAntiviralData: antiviralsEnabled && hasVerifiedAntiviralData,
+            antiviralSourceId: antiviralSourceId
+        });
         
-        // Update result summary - show both risks
+        // Update result summary - show risks
         const finalRiskUnprotected = timelineUnprotected[timelineUnprotected.length - 1].risk;
-        const finalRiskProtected = timelineProtected ? timelineProtected[timelineProtected.length - 1].risk : null;
+        const finalRiskCondom = timelineCondom ? timelineCondom[timelineCondom.length - 1].risk : null;
+        const finalRiskAntiviral = timelineAntiviral ? timelineAntiviral[timelineAntiviral.length - 1].risk : null;
+        const finalRiskBoth = timelineBoth ? timelineBoth[timelineBoth.length - 1].risk : null;
         const totalEncounters = timelineUnprotected[timelineUnprotected.length - 1].encounters;
         
         this.resultDuration.textContent = months;
         
-        // Show both risks in the result
-        if (finalRiskProtected !== null) {
+        // Determine best protection level to display
+        const bestRisk = finalRiskBoth ?? finalRiskCondom ?? finalRiskUnprotected;
+        
+        // Show risks in the result
+        if (antiviralsEnabled && finalRiskBoth !== null) {
+            // Show full progression: unprotected → condom → condom + antiviral
             this.resultProbability.innerHTML = `
                 <span class="risk-unprotected">${(finalRiskUnprotected * 100).toFixed(1)}%</span>
                 <span class="risk-arrow">→</span>
-                <span class="risk-protected">${(finalRiskProtected * 100).toFixed(1)}%</span>
+                <span class="risk-antiviral">${(finalRiskBoth * 100).toFixed(1)}%</span>
+            `;
+        } else if (finalRiskCondom !== null) {
+            this.resultProbability.innerHTML = `
+                <span class="risk-unprotected">${(finalRiskUnprotected * 100).toFixed(1)}%</span>
+                <span class="risk-arrow">→</span>
+                <span class="risk-protected">${(finalRiskCondom * 100).toFixed(1)}%</span>
             `;
         } else {
             this.resultProbability.textContent = `${(finalRiskUnprotected * 100).toFixed(1)}%`;
@@ -617,7 +687,10 @@ class RiskCalculator {
         
         // Generate explanation
         this.resultExplanation.innerHTML = this.generateExplanation(
-            stiData, baseRate, withCondomRate, totalEncounters, finalRiskUnprotected, finalRiskProtected, hasVerifiedCondomData, months
+            stiData, baseRate, withCondomRate, totalEncounters, 
+            finalRiskUnprotected, finalRiskCondom, finalRiskAntiviral, finalRiskBoth,
+            hasVerifiedCondomData, antiviralsEnabled && hasVerifiedAntiviralData, 
+            antiviralEff, months
         );
     }
     
@@ -662,30 +735,39 @@ class RiskCalculator {
         `;
     }
     
-    generateExplanation(stiData, baseRate, withCondomRate, encounters, riskUnprotected, riskProtected, hasCondomData, months) {
+    generateExplanation(stiData, baseRate, withCondomRate, encounters, 
+                        riskUnprotected, riskCondom, riskAntiviral, riskBoth,
+                        hasCondomData, hasAntiviralData, antiviralEff, months) {
         const unprotectedPercent = (riskUnprotected * 100).toFixed(1);
-        const protectedPercent = riskProtected !== null ? (riskProtected * 100).toFixed(1) : null;
-        const perActPercent = (baseRate * 100).toFixed(3);
-        const perActWithCondom = (withCondomRate * 100).toFixed(3);
         
-        let riskLevelUnprotected;
-        if (riskUnprotected < 0.05) riskLevelUnprotected = 'relatively low';
-        else if (riskUnprotected < 0.20) riskLevelUnprotected = 'moderate';
-        else if (riskUnprotected < 0.50) riskLevelUnprotected = 'significant';
-        else riskLevelUnprotected = 'very high';
+        const getRiskLevel = (risk) => {
+            if (risk < 0.05) return 'relatively low';
+            if (risk < 0.20) return 'moderate';
+            if (risk < 0.50) return 'significant';
+            return 'very high';
+        };
         
         let html = `Over <strong>${months} month${months > 1 ? 's' : ''}</strong> (~${encounters} encounters):<br>`;
-        html += `<span style="color:#ef4444;">Without condom:</span> <strong>${unprotectedPercent}%</strong> risk (${riskLevelUnprotected})`;
+        html += `<span style="color:#ef4444;">No protection:</span> <strong>${unprotectedPercent}%</strong> risk (${getRiskLevel(riskUnprotected)})`;
         
-        if (hasCondomData && protectedPercent !== null) {
-            let riskLevelProtected;
-            if (riskProtected < 0.05) riskLevelProtected = 'relatively low';
-            else if (riskProtected < 0.20) riskLevelProtected = 'moderate';
-            else if (riskProtected < 0.50) riskLevelProtected = 'significant';
-            else riskLevelProtected = 'very high';
-            
-            const reduction = ((riskUnprotected - riskProtected) / riskUnprotected * 100).toFixed(0);
-            html += `<br><span style="color:#10b981;">With condom:</span> <strong>${protectedPercent}%</strong> risk (${riskLevelProtected})`;
+        if (hasCondomData && riskCondom !== null) {
+            const condomPercent = (riskCondom * 100).toFixed(1);
+            const reduction = ((riskUnprotected - riskCondom) / riskUnprotected * 100).toFixed(0);
+            html += `<br><span style="color:#10b981;">With condom:</span> <strong>${condomPercent}%</strong> risk (${getRiskLevel(riskCondom)})`;
+        }
+        
+        if (hasAntiviralData && riskAntiviral !== null) {
+            const antiviralPercent = (riskAntiviral * 100).toFixed(1);
+            html += `<br><span style="color:#8b5cf6;">Antivirals only:</span> <strong>${antiviralPercent}%</strong> risk (${getRiskLevel(riskAntiviral)})`;
+        }
+        
+        if (hasAntiviralData && hasCondomData && riskBoth !== null) {
+            const bothPercent = (riskBoth * 100).toFixed(1);
+            const totalReduction = ((riskUnprotected - riskBoth) / riskUnprotected * 100).toFixed(0);
+            html += `<br><span style="color:#06b6d4;">Condom + antivirals:</span> <strong>${bothPercent}%</strong> risk (${getRiskLevel(riskBoth)})`;
+            html += `<br><em>Combined protection reduces your cumulative risk by ~${totalReduction}%</em>`;
+        } else if (hasCondomData && riskCondom !== null) {
+            const reduction = ((riskUnprotected - riskCondom) / riskUnprotected * 100).toFixed(0);
             html += `<br><em>Condoms reduce your cumulative risk by ~${reduction}%</em>`;
         }
         
@@ -696,10 +778,11 @@ class RiskCalculator {
         return html;
     }
     
-    updateChart(timelineUnprotected, timelineProtected, stiName, hasCondomData) {
-        const labels = timelineUnprotected.map(d => `Month ${d.month}`);
-        const dataUnprotected = timelineUnprotected.map(d => (d.risk * 100).toFixed(2));
-        const dataProtected = timelineProtected ? timelineProtected.map(d => (d.risk * 100).toFixed(2)) : null;
+    updateChart(timelines, stiName, options) {
+        const { unprotected, condom, antiviral, both } = timelines;
+        const { hasCondomData, hasAntiviralData } = options;
+        
+        const labels = unprotected.map(d => `Month ${d.month}`);
         
         if (this.chart) {
             this.chart.destroy();
@@ -707,25 +790,32 @@ class RiskCalculator {
         
         const ctx = this.chartCanvas.getContext('2d');
         
-        // Create gradient for unprotected (red/orange)
+        // Create gradients for each line type
         const gradientUnprotected = ctx.createLinearGradient(0, 0, 0, 300);
-        gradientUnprotected.addColorStop(0, 'rgba(239, 68, 68, 0.25)');
+        gradientUnprotected.addColorStop(0, 'rgba(239, 68, 68, 0.2)');
         gradientUnprotected.addColorStop(1, 'rgba(239, 68, 68, 0.02)');
         
-        // Create gradient for protected (green)
-        const gradientProtected = ctx.createLinearGradient(0, 0, 0, 300);
-        gradientProtected.addColorStop(0, 'rgba(16, 185, 129, 0.25)');
-        gradientProtected.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+        const gradientCondom = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientCondom.addColorStop(0, 'rgba(16, 185, 129, 0.2)');
+        gradientCondom.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
         
-        // Build datasets
+        const gradientAntiviral = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientAntiviral.addColorStop(0, 'rgba(139, 92, 246, 0.2)');
+        gradientAntiviral.addColorStop(1, 'rgba(139, 92, 246, 0.02)');
+        
+        const gradientBoth = ctx.createLinearGradient(0, 0, 0, 300);
+        gradientBoth.addColorStop(0, 'rgba(6, 182, 212, 0.2)');
+        gradientBoth.addColorStop(1, 'rgba(6, 182, 212, 0.02)');
+        
+        // Build datasets - always show unprotected
         const datasets = [
             {
-                label: `Without Condom`,
-                data: dataUnprotected,
+                label: 'No Protection',
+                data: unprotected.map(d => (d.risk * 100).toFixed(2)),
                 borderColor: '#ef4444',
                 backgroundColor: gradientUnprotected,
                 borderWidth: 2,
-                fill: true,
+                fill: false,
                 tension: 0.3,
                 pointBackgroundColor: '#ef4444',
                 pointBorderColor: '#0a0b0d',
@@ -735,15 +825,15 @@ class RiskCalculator {
             }
         ];
         
-        // Add protected line if we have verified condom data
-        if (dataProtected) {
+        // Add condom line if data available
+        if (hasCondomData && condom) {
             datasets.push({
-                label: `With Condom`,
-                data: dataProtected,
+                label: 'Condom Only',
+                data: condom.map(d => (d.risk * 100).toFixed(2)),
                 borderColor: '#10b981',
-                backgroundColor: gradientProtected,
+                backgroundColor: gradientCondom,
                 borderWidth: 2,
-                fill: true,
+                fill: false,
                 tension: 0.3,
                 pointBackgroundColor: '#10b981',
                 pointBorderColor: '#0a0b0d',
@@ -753,9 +843,45 @@ class RiskCalculator {
             });
         }
         
+        // Add antiviral-only line if enabled
+        if (hasAntiviralData && antiviral) {
+            datasets.push({
+                label: 'Antivirals Only',
+                data: antiviral.map(d => (d.risk * 100).toFixed(2)),
+                borderColor: '#8b5cf6',
+                backgroundColor: gradientAntiviral,
+                borderWidth: 2,
+                fill: false,
+                tension: 0.3,
+                pointBackgroundColor: '#8b5cf6',
+                pointBorderColor: '#0a0b0d',
+                pointBorderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+                borderDash: [5, 5]  // Dashed line to distinguish
+            });
+        }
+        
+        // Add combined protection line if both available
+        if (hasAntiviralData && hasCondomData && both) {
+            datasets.push({
+                label: 'Condom + Antivirals',
+                data: both.map(d => (d.risk * 100).toFixed(2)),
+                borderColor: '#06b6d4',
+                backgroundColor: gradientBoth,
+                borderWidth: 2.5,
+                fill: true,  // Fill only the lowest line
+                tension: 0.3,
+                pointBackgroundColor: '#06b6d4',
+                pointBorderColor: '#0a0b0d',
+                pointBorderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            });
+        }
+        
         // Store timelines for tooltip access
-        this._timelineUnprotected = timelineUnprotected;
-        this._timelineProtected = timelineProtected;
+        this._timelines = timelines;
         
         this.chart = new Chart(ctx, {
             type: 'line',
@@ -778,10 +904,12 @@ class RiskCalculator {
                             color: '#9ca3af',
                             font: {
                                 family: "'Outfit', sans-serif",
-                                size: 12
+                                size: 11
                             },
-                            boxWidth: 12,
-                            padding: 20
+                            boxWidth: 10,
+                            padding: 15,
+                            usePointStyle: true,
+                            pointStyle: 'line'
                         }
                     },
                     tooltip: {
