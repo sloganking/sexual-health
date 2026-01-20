@@ -60,29 +60,31 @@ const STI_DATA = {
     
     hsv2: {
         name: 'Herpes (HSV-2)',
-        verified: true,  // VERIFIED 2026-01-16
-        verificationNote: 'Verified against Magaret et al. 2016 - direct per-act measurements',
-        rateType: 'per-act',  // DIRECT per-act measurement from Magaret 2016
+        verified: true,  // VERIFIED 2026-01-20
+        verificationNote: 'Derived from Corey 2004 (3.6% over 8 months). Magaret 2016 rate (2.85%) is during shedding only - not representative of overall risk.',
+        rateType: 'per-act-derived',  // Derived from Corey 2004 partnership data
         rates: {
             mtf: {
-                value: 0.0285,  // 28.5 per 1000 = 2.85% per act (DIRECT measurement)
-                sourceId: 'hsv2_magaret_2016',
-                isDerived: false,
-                note: 'Direct measurement: 28.5 per 1000 unprotected sex acts'
+                // Derived from Corey 2004: 3.6% over 8 months ≈ 69 acts
+                // per_act = 1 - (1 - 0.036)^(1/69) ≈ 0.00053
+                value: 0.00053,  // 0.053% per act (derived from 8-month study)
+                sourceId: 'hsv2_per_act_derived',
+                isDerived: true,
+                note: 'Derived: 3.6% over 8 months → ~0.053% per act (assumes 2x/week)'
             },
             ftm: {
-                value: 0.0285,  // F→M rate not directly stated; using M→F as estimate
-                sourceId: 'hsv2_magaret_2016',
+                value: 0.00053,  // Using same rate; F→M likely similar or lower
+                sourceId: 'hsv2_per_act_derived',
                 isDerived: true,
-                note: 'F→M rate not stated in source; using M→F as estimate (likely lower in reality)'
+                note: 'F→M rate not directly stated; using M→F as estimate'
             }
         },
         condomEffectiveness: { 
-            // Direction-specific effectiveness from Magaret 2016 AND Martin 2009
-            mtf: { value: 0.96, sourceId: 'hsv2_magaret_2016' },  // 96% effective M→F
-            ftm: { value: 0.65, sourceId: 'hsv2_magaret_2016' },  // 65% effective F→M
+            // Direction-specific effectiveness from Martin 2009
+            mtf: { value: 0.96, sourceId: 'hsv2_condom_effectiveness' },  // 96% effective M→F
+            ftm: { value: 0.65, sourceId: 'hsv2_condom_effectiveness' },  // 65% effective F→M
             value: 0.805,  // Fallback average
-            sourceId: 'hsv2_magaret_2016',
+            sourceId: 'hsv2_condom_effectiveness',
             isUnverified: false,
             note: '96% effective M→F, 65% effective F→M'
         },
@@ -91,14 +93,14 @@ const STI_DATA = {
                 id: 'valacyclovir',
                 name: 'Infected partner takes daily valacyclovir',
                 shortName: 'Antivirals',
-                value: 0.47,  // ~47% reduction
+                value: 0.47,  // ~47% reduction (consistent with Corey study)
                 sourceId: 'hsv2_corey_2004',
                 note: 'Daily suppressive antiviral taken by HSV-2+ partner'
             }
         ],
-        source: 'Magaret et al. 2016 - Clin Infect Dis',
-        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/26578538/',
-        notes: 'Per-act rate 2.85% M→F (direct measurement). Condoms 96% effective M→F, 65% F→M. Daily antivirals reduce transmission by ~47%.'
+        source: 'Corey et al. 2004 - NEJM',
+        sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/14702423/',
+        notes: 'Per-act rate ~0.053% (derived from 3.6% over 8 months). Condoms 96% effective M→F, 65% F→M. Daily antivirals reduce transmission by ~47%.'
     },
     
     hpv: {
