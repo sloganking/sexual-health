@@ -1279,7 +1279,7 @@ const SOURCES = {
             result: { name: 'overall_bacterial_sti_reduction', value: '~66% (two-thirds)' },
             warnings: [
                 'POST-EXPOSURE prophylaxis - taken within 72 hours AFTER sex, not daily',
-                'Uninfected partner (MSM or transgender women) takes 200mg doxycycline after sex',
+                'Partner without the STI (MSM or transgender women) takes 200mg doxycycline after sex',
                 'NOT effective for cisgender women in trials (possibly due to adherence)',
                 'CDC recommends only for MSM/TGW with STI in past 12 months',
                 'Gonorrhea protection lower (~55%) due to antibiotic resistance',
@@ -1368,7 +1368,7 @@ const SOURCES = {
                 'Protects only against the 9 HPV types covered by Gardasil 9',
                 'Must be given BEFORE sexual exposure to be effective',
                 'Does not treat existing HPV infections',
-                'Uninfected partner receives 2-3 dose vaccine series (ages 9-45)',
+                'Partner without the STI receives 2-3 dose vaccine series (ages 9-45)',
                 'Lifetime protection - no booster needed'
             ]
         }
@@ -1395,7 +1395,7 @@ const SOURCES = {
             steps: ['Hep B vaccine is 98-100% effective when full series completed'],
             result: { name: 'vaccine_efficacy', value: '98-100%' },
             warnings: [
-                'Uninfected partner receives 2-3 dose vaccine series',
+                'Partner without the STI receives 2-3 dose vaccine series',
                 'Requires completing full vaccine series',
                 '5-10% of people are non-responders and may need additional doses',
                 'Must be given BEFORE exposure - does not treat existing infection',
@@ -1430,7 +1430,7 @@ const SOURCES = {
             ],
             result: { name: 'relative_efficacy', value: '66% fewer infections than oral PrEP (MSM/TGW); 89% fewer in women' },
             warnings: [
-                'Uninfected partner receives injection every 2 months (after 2 loading doses)',
+                'Partner without the STI receives injection every 2 months (after 2 loading doses)',
                 'Brand name: Apretude (cabotegravir)',
                 'Requires clinic visits every 2 months',
                 'Injection site reactions common but mild',
@@ -1461,7 +1461,7 @@ const SOURCES = {
             ],
             result: { name: 'efficacy', value: '100% in PURPOSE 1 trial (0 infections); ~96% overall efficacy' },
             warnings: [
-                'Uninfected partner receives injection every 6 months (twice yearly)',
+                'Partner without the STI receives injection every 6 months (twice yearly)',
                 'Brand name: Sunlenca (lenacapavir) - FDA approved for PrEP June 2025',
                 'Most effective HIV PrEP option currently available',
                 'Requires clinic visits twice per year',

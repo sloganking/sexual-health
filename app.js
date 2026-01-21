@@ -38,27 +38,27 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'prep',
-                name: 'Uninfected partner takes daily Truvada or Descovy (PrEP)',
+                name: 'Partner without the STI takes daily Truvada or Descovy (PrEP)',
                 shortName: 'Daily PrEP',
                 actor: 'uninfected',
                 category: 'daily',
                 value: 0.99,  // ~99% reduction
                 sourceId: 'hiv_prep_effectiveness',
-                note: 'Prescription pills (Truvada/Descovy) taken daily by the HIV-negative partner'
+                note: 'Prescription pills (Truvada/Descovy) taken daily by the partner without HIV'
             },
             {
                 id: 'uu',
-                name: 'HIV+ partner takes daily ART and has suppressed virus',
+                name: 'Partner with the STI takes daily ART and has suppressed virus',
                 shortName: 'ART (U=U)',
                 actor: 'infected',
                 category: 'daily',
                 value: 1.0,  // 100% reduction (effectively zero transmission)
                 sourceId: 'hiv_viral_suppression',
-                note: 'Antiretroviral therapy (ART) suppresses virus to undetectable — cannot transmit (U=U)'
+                note: 'Antiretroviral therapy (ART) suppresses HIV to undetectable — cannot transmit (U=U)'
             },
             {
                 id: 'cabotegravir',
-                name: 'Uninfected partner receives Apretude injection (every 2 months)',
+                name: 'Partner without the STI receives Apretude injection (every 2 months)',
                 shortName: 'Apretude',
                 actor: 'uninfected',
                 category: 'injectable',
@@ -68,7 +68,7 @@ const STI_DATA = {
             },
             {
                 id: 'lenacapavir',
-                name: 'Uninfected partner receives Sunlenca injection (every 6 months)',
+                name: 'Partner without the STI receives Sunlenca injection (every 6 months)',
                 shortName: 'Sunlenca',
                 actor: 'uninfected',
                 category: 'injectable',
@@ -115,13 +115,13 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'valacyclovir',
-                name: 'Infected partner takes daily valacyclovir',
+                name: 'Partner with the STI takes daily valacyclovir',
                 shortName: 'Valacyclovir',
                 actor: 'infected',
                 category: 'daily',
                 value: 0.47,  // ~47% reduction (consistent with Corey study)
                 sourceId: 'hsv2_corey_2004',
-                note: 'Daily suppressive antiviral taken by HSV-2+ partner'
+                note: 'Daily suppressive antiviral taken by the partner with HSV-2'
             }
         ],
         source: 'Corey et al. 2004 - NEJM',
@@ -158,7 +158,7 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'hpv_vaccine',
-                name: 'Uninfected partner has received HPV vaccine (Gardasil 9)',
+                name: 'Partner without the STI has received HPV vaccine (Gardasil 9)',
                 shortName: 'HPV Vaccine',
                 actor: 'uninfected',
                 category: 'vaccine',
@@ -201,7 +201,7 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'doxypep',
-                name: 'Uninfected partner takes DoxyPEP within 72h after sex (MSM/TGW only)',
+                name: 'Partner without the STI takes DoxyPEP within 72h after sex (MSM/TGW only)',
                 shortName: 'DoxyPEP',
                 actor: 'uninfected',
                 category: 'post',
@@ -244,7 +244,7 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'doxypep',
-                name: 'Uninfected partner takes DoxyPEP within 72h after sex (MSM/TGW only)',
+                name: 'Partner without the STI takes DoxyPEP within 72h after sex (MSM/TGW only)',
                 shortName: 'DoxyPEP',
                 actor: 'uninfected',
                 category: 'post',
@@ -287,7 +287,7 @@ const STI_DATA = {
         preventatives: [
             {
                 id: 'doxypep',
-                name: 'Uninfected partner takes DoxyPEP within 72h after sex (MSM/TGW only)',
+                name: 'Partner without the STI takes DoxyPEP within 72h after sex (MSM/TGW only)',
                 shortName: 'DoxyPEP',
                 actor: 'uninfected',
                 category: 'post',
@@ -642,9 +642,9 @@ class RiskCalculator {
 
         const groupOrder = ['infected', 'uninfected', 'both'];
         const groupLabels = {
-            infected: 'Infected partner medication',
-            uninfected: 'Uninfected partner prevention',
-            both: 'Both partners prevention'
+            infected: 'Medication for partner with the STI',
+            uninfected: 'Prevention for partner without the STI',
+            both: 'Prevention for both partners'
         };
 
         groupOrder.forEach(groupKey => {
