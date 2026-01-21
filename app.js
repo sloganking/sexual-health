@@ -739,7 +739,7 @@ class RiskCalculator {
     }
 
     getFrequencyLabel(value) {
-        if (value <= 7) {
+        if (value < 7) {
             return value;
         } else {
             // Show times per week, plus per-day equivalent
